@@ -18,7 +18,7 @@ function ProviderServiceRequestsPage() {
 
   const application = applications.find(
     (item) =>
-      item.id === user.providerApplicationId || item.email === user.email
+      item.id === user.providerApplicationId || item.email === user.email,
   );
 
   const isApproved = application?.status === "Approved";
@@ -26,12 +26,12 @@ function ProviderServiceRequestsPage() {
   const providerRequests = serviceRequests.filter(
     (request) =>
       request.providerApplicationId === application?.id ||
-      request.providerEmail === user.email
+      request.providerEmail === user.email,
   );
 
   function handleStatusChange(requestId, status) {
     const confirmed = window.confirm(
-      `Are you sure you want to ${status.toLowerCase()} this request?`
+      `Are you sure you want to ${status.toLowerCase()} this request?`,
     );
 
     if (!confirmed) return;
@@ -86,7 +86,7 @@ function ProviderServiceRequestsPage() {
             <p className="mt-2 text-3xl font-bold text-amber-600">
               {
                 providerRequests.filter(
-                  (request) => request.status === "Pending"
+                  (request) => request.status === "Pending",
                 ).length
               }
             </p>
@@ -97,7 +97,7 @@ function ProviderServiceRequestsPage() {
             <p className="mt-2 text-3xl font-bold text-green-700">
               {
                 providerRequests.filter(
-                  (request) => request.status === "Accepted"
+                  (request) => request.status === "Accepted",
                 ).length
               }
             </p>
@@ -127,8 +127,12 @@ function ProviderServiceRequestsPage() {
                       request.status === "Accepted"
                         ? "bg-green-100 text-green-700"
                         : request.status === "Declined"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-amber-100 text-amber-700"
+                          ? "bg-red-100 text-red-700"
+                          : request.status === "In Progress"
+                            ? "bg-purple-100 text-purple-700"
+                            : request.status === "Completed"
+                              ? "bg-blue-100 text-blue-700"
+                              : "bg-amber-100 text-amber-700"
                     }`}
                   >
                     {request.status}
@@ -180,6 +184,28 @@ function ProviderServiceRequestsPage() {
                         Decline request
                       </button>
                     </>
+                  )}
+
+                  {request.status === "Accepted" && (
+                    <button
+                      onClick={() =>
+                        handleStatusChange(request.id, "In Progress")
+                      }
+                      className="rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white hover:bg-[#10382C]"
+                    >
+                      Start Service
+                    </button>
+                  )}
+
+                  {request.status === "In Progress" && (
+                    <button
+                      onClick={() =>
+                        handleStatusChange(request.id, "Completed")
+                      }
+                      className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700"
+                    >
+                      Mark as Completed
+                    </button>
                   )}
                 </div>
 

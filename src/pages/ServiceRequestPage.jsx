@@ -1,4 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useServiceRequests } from "../context/useServiceRequests";
 import { ArrowLeft, ClipboardList, MapPin } from "lucide-react";
 
@@ -13,11 +14,42 @@ function ServiceRequestPage() {
 
   const navigate = useNavigate();
   const { addServiceRequest } = useServiceRequests();
+  const [message, setMessage] = useState("");
 
   function handleSubmit(event) {
     event.preventDefault();
+    setMessage("");
 
     const formData = new FormData(event.currentTarget);
+
+    const fullName = formData.get("fullName").trim();
+    const phone = formData.get("phone").trim();
+    const location = formData.get("location").trim();
+    const description = formData.get("description").trim();
+
+    const phoneDigits = phone.replace(/\D/g, "");
+
+    if (fullName.length < 2 || !/^[\p{L}\s'-]+$/u.test(fullName)) {
+      setMessage("Please enter a valid full name.");
+      return;
+    }
+
+    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+      setMessage("Please enter a valid phone number.");
+      return;
+    }
+
+    if (location.length < 5) {
+      setMessage("Please provide a more detailed service location.");
+      return;
+    }
+
+    if (description.length < 15) {
+      setMessage(
+        "Please describe the service you need in at least 15 characters.",
+      );
+      return;
+    }
 
     addServiceRequest({
       providerId: provider.id,
@@ -29,10 +61,10 @@ function ServiceRequestPage() {
       serviceId: service.id,
       serviceName: service.name,
 
-      customerName: formData.get("fullName"),
-      phone: formData.get("phone"),
-      location: formData.get("location"),
-      description: formData.get("description"),
+      customerName: fullName,
+      phone,
+      location,
+      description,
     });
 
     navigate("/activity");
@@ -110,6 +142,11 @@ function ServiceRequestPage() {
           </div>
 
           <form onSubmit={handleSubmit} className="mt-8 space-y-6">
+            {message && (
+              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                {message}
+              </p>
+            )}
             <div>
               <label className="mb-2 block text-sm font-semibold text-[#252925]">
                 Your full name
@@ -147,6 +184,7 @@ function ServiceRequestPage() {
                 type="text"
                 name="location"
                 placeholder="Where do you need the service?"
+                required
                 className="w-full rounded-lg border border-gray-200 px-4 py-3 outline-none transition focus:border-[#174C3C]"
               />
             </div>

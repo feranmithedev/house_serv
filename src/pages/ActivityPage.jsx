@@ -10,9 +10,11 @@ import {
 } from "lucide-react";
 import { useServiceRequests } from "../context/useServiceRequests";
 import { useInspections } from "../context/useInspections";
+import { useReviews } from "../context/useReviews";
 
 function ActivityPage() {
-  const { serviceRequests, updateServiceRequestStatus } = useServiceRequests();
+  const { serviceRequests } = useServiceRequests();
+  const { reviews } = useReviews();
   const { inspections, cancelInspection, completeInspection } =
     useInspections();
   const [inspectionFilter, setInspectionFilter] = useState("All");
@@ -20,20 +22,20 @@ function ActivityPage() {
 
   const totalInspections = inspections.length;
   const pendingInspections = inspections.filter(
-    (inspection) => inspection.status === "Pending"
+    (inspection) => inspection.status === "Pending",
   ).length;
   const cancelledInspections = inspections.filter(
-    (inspection) => inspection.status === "Cancelled"
+    (inspection) => inspection.status === "Cancelled",
   ).length;
   const completedInspections = inspections.filter(
-    (inspection) => inspection.status === "Completed"
+    (inspection) => inspection.status === "Completed",
   ).length;
 
   const filteredInspections =
     inspectionFilter === "All"
       ? inspections
       : inspections.filter(
-          (inspection) => inspection.status === inspectionFilter
+          (inspection) => inspection.status === inspectionFilter,
         );
 
   const totalRequests = serviceRequests.length;
@@ -42,11 +44,11 @@ function ActivityPage() {
     serviceRequestFilter === "All"
       ? serviceRequests
       : serviceRequests.filter(
-          (request) => request.status === serviceRequestFilter
+          (request) => request.status === serviceRequestFilter,
         );
 
   const pendingRequests = serviceRequests.filter(
-    (request) => request.status === "Pending"
+    (request) => request.status === "Pending",
   ).length;
   return (
     <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
@@ -104,9 +106,28 @@ function ActivityPage() {
               <Wrench size={23} />
             </div>
             <p className="text-sm text-gray-500">Service requests</p>
+
             <h2 className="mt-2 text-3xl font-bold text-[#252925]">
               {totalRequests}
             </h2>
+
+            <p className="mt-3 text-sm text-green-700">
+              {
+                serviceRequests.filter(
+                  (request) => request.status === "Completed",
+                ).length
+              }{" "}
+              completed
+            </p>
+
+            <p className="mt-1 text-sm text-purple-700">
+              {
+                serviceRequests.filter(
+                  (request) => request.status === "In Progress",
+                ).length
+              }{" "}
+              in progress
+            </p>
           </div>
 
           <div className="rounded-2xl bg-white p-6 shadow-sm">
@@ -169,6 +190,16 @@ function ActivityPage() {
                   ? "When you schedule a property inspection, your upcoming visits and their status will appear here."
                   : `You don't have any ${inspectionFilter.toLowerCase()} inspections yet. Try selecting another filter.`}
               </p>
+
+              {inspectionFilter === "All" && (
+                <Link
+                  to="/properties"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#174C3C] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C]"
+                >
+                  <House size={17} />
+                  Explore properties
+                </Link>
+              )}
             </div>
           ) : (
             <div className="space-y-5">
@@ -193,12 +224,12 @@ function ActivityPage() {
                         inspection.status === "Cancelled"
                           ? "bg-gray-100 text-gray-700"
                           : inspection.status === "Declined"
-                          ? "bg-red-100 text-red-700"
-                          : inspection.status === "Completed"
-                          ? "bg-blue-100 text-blue-700"
-                          : inspection.status === "Accepted"
-                          ? "bg-green-100 text-green-700"
-                          : "bg-yellow-100 text-yellow-800"
+                            ? "bg-red-100 text-red-700"
+                            : inspection.status === "Completed"
+                              ? "bg-blue-100 text-blue-700"
+                              : inspection.status === "Accepted"
+                                ? "bg-green-100 text-green-700"
+                                : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
                       {inspection.status}
@@ -224,7 +255,7 @@ function ActivityPage() {
                           <button
                             onClick={() => {
                               const confirmed = window.confirm(
-                                "Have you attended this inspection and want to mark it as completed?"
+                                "Have you attended this inspection and want to mark it as completed?",
                               );
 
                               if (confirmed) {
@@ -233,7 +264,7 @@ function ActivityPage() {
                             }}
                             disabled={
                               new Date(
-                                `${inspection.inspectionDate}T${inspection.inspectionTime}`
+                                `${inspection.inspectionDate}T${inspection.inspectionTime}`,
                               ) > new Date()
                             }
                             className="rounded-full bg-[#174C3C] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#10392D] disabled:cursor-not-allowed disabled:opacity-50"
@@ -245,7 +276,7 @@ function ActivityPage() {
                         <button
                           onClick={() => {
                             const confirmed = window.confirm(
-                              "Are you sure you want to cancel this inspection?"
+                              "Are you sure you want to cancel this inspection?",
                             );
 
                             if (confirmed) {
@@ -313,6 +344,16 @@ function ActivityPage() {
                 When you request a home service, you will be able to track its
                 progress here.
               </p>
+
+              {serviceRequestFilter === "All" && (
+                <Link
+                  to="/services"
+                  className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#174C3C] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C]"
+                >
+                  <Wrench size={17} />
+                  Explore home services
+                </Link>
+              )}
             </div>
           ) : (
             <div className="space-y-5">
@@ -332,22 +373,23 @@ function ActivityPage() {
                       </p>
                     </div>
 
-                    <select
-                      value={request.status}
-                      onChange={(event) =>
-                        updateServiceRequestStatus(
-                          request.id,
-                          event.target.value
-                        )
-                      }
-                      className="h-fit rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-[#174C3C] outline-none"
+                    <span
+                      className={`h-fit w-fit rounded-full px-4 py-2 text-sm font-semibold ${
+                        request.status === "Accepted"
+                          ? "bg-green-100 text-green-700"
+                          : request.status === "Declined"
+                            ? "bg-red-100 text-red-700"
+                            : request.status === "Completed"
+                              ? "bg-blue-100 text-blue-700"
+                              : request.status === "Cancelled"
+                                ? "bg-gray-100 text-gray-700"
+                                : request.status === "In Progress"
+                                  ? "bg-purple-100 text-purple-700"
+                                  : "bg-amber-100 text-amber-700"
+                      }`}
                     >
-                      <option value="Pending">Pending</option>
-                      <option value="Accepted">Accepted</option>
-                      <option value="In Progress">In Progress</option>
-                      <option value="Completed">Completed</option>
-                      <option value="Cancelled">Cancelled</option>
-                    </select>
+                      {request.status}
+                    </span>
                   </div>
 
                   <div className="mt-5 grid gap-3 text-sm text-gray-600 sm:grid-cols-2">
@@ -369,6 +411,26 @@ function ActivityPage() {
                       {request.description}
                     </p>
                   </div>
+
+                  {request.status === "Completed" && (
+                    <div className="mt-5 border-t border-gray-100 pt-4">
+                      {reviews.some(
+                        (review) =>
+                          String(review.requestId) === String(request.id),
+                      ) ? (
+                        <span className="inline-flex rounded-full bg-green-100 px-4 py-2 text-sm font-semibold text-green-700">
+                          Review submitted
+                        </span>
+                      ) : (
+                        <Link
+                          to={`/services/review/${request.id}`}
+                          className="inline-flex rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C]"
+                        >
+                          Leave a review
+                        </Link>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

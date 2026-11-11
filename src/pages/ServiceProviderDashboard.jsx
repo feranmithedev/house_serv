@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import {
   ClipboardList,
-  UserRound,
   ArrowRight,
   ShieldCheck,
 } from "lucide-react";
@@ -15,7 +14,7 @@ function ServiceProviderDashboard() {
   const providerApplication = applications.find(
     (application) =>
       application.id === user.providerApplicationId ||
-      application.email === user.email
+      application.email === user.email,
   );
 
   const applicationStatus =
@@ -71,8 +70,8 @@ function ServiceProviderDashboard() {
                         applicationStatus === "Approved"
                           ? "bg-green-100 text-green-700"
                           : applicationStatus === "Rejected"
-                          ? "bg-red-100 text-red-700"
-                          : "bg-amber-100 text-amber-700"
+                            ? "bg-red-100 text-red-700"
+                            : "bg-amber-100 text-amber-700"
                       }`}
                     >
                       {applicationStatus}
@@ -131,17 +130,27 @@ function ServiceProviderDashboard() {
 
           <div className="rounded-2xl bg-white p-7 shadow-sm">
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10">
-              <UserRound size={25} className="text-[#174C3C]" />
+              <ClipboardList size={25} className="text-[#174C3C]" />
             </div>
 
             <h3 className="text-lg font-bold text-[#252925]">
-              Professional Profile
+              Service Requests
             </h3>
 
             <p className="mt-2 text-sm leading-6 text-gray-500">
-              Add your business information, qualifications, experience and
-              previous work.
+              View and manage requests from customers once your professional
+              account has been approved.
             </p>
+
+            {applicationStatus === "Approved" && (
+              <Link
+                to="/dashboard/provider/requests"
+                className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10392D]"
+              >
+                Manage Requests
+                <ArrowRight size={18} />
+              </Link>
+            )}
           </div>
         </div>
       </div>

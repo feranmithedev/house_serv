@@ -11,14 +11,28 @@ function RegisterPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setMessage("");
 
     const formData = new FormData(event.currentTarget);
 
+    const fullName = formData.get("fullName").trim();
+    const email = formData.get("email").trim();
+    const phone = formData.get("phone").trim();
     const password = formData.get("password");
     const confirmPassword = formData.get("confirmPassword");
 
-    if (password !== confirmPassword) {
-      setMessage("Passwords do not match. Please try again.");
+    if (fullName.length < 2 || !/^[\p{L}\s'-]+$/u.test(fullName)) {
+      setMessage("Please enter a valid full name.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (!/^\+?[\d\s()-]{10,20}$/.test(phone)) {
+      setMessage("Please enter a valid phone number.");
       return;
     }
 
@@ -27,16 +41,19 @@ function RegisterPage() {
       return;
     }
 
+    if (password !== confirmPassword) {
+      setMessage("Passwords do not match. Please try again.");
+      return;
+    }
+
     const userProfile = {
-      fullName: formData.get("fullName"),
-      email: formData.get("email"),
-      phone: formData.get("phone"),
+      fullName,
+      email,
+      phone,
       accountType,
       profileComplete: accountType === "finder",
     };
 
-    // Save basic demo profile details.
-    // Passwords are never stored in localStorage.
     localStorage.setItem("houseServUser", JSON.stringify(userProfile));
 
     if (accountType === "finder") {

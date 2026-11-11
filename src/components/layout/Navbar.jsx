@@ -141,9 +141,13 @@ function Navbar() {
               Create Account
             </NavLink>
 
-            <button className="w-full rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white">
+            <NavLink
+              to="/dashboard/agent/properties/new"
+              onClick={() => setMenuOpen(false)}
+              className="w-full rounded-lg bg-[#174C3C] px-5 py-3 text-center text-sm font-semibold text-white"
+            >
               List a Property
-            </button>
+            </NavLink>
           </div>
         </div>
       )}

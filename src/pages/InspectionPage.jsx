@@ -13,6 +13,7 @@ function InspectionPage() {
   const { addInspection } = useInspections();
   const { agentProperties } = useProperties();
   const [inspectionDate, setInspectionDate] = useState("");
+  const [message, setMessage] = useState("");
   const today = new Date().toLocaleDateString("en-CA");
   const currentTime = new Date().toTimeString().slice(0, 5);
 
@@ -20,18 +21,56 @@ function InspectionPage() {
 
   function handleSubmit(event) {
     event.preventDefault();
+    setMessage("");
 
     const formData = new FormData(event.currentTarget);
+
+    const fullName = formData.get("fullName").trim();
+    const phone = formData.get("phone").trim();
+    const date = formData.get("inspectionDate");
+    const time = formData.get("inspectionTime");
+
+    const phoneDigits = phone.replace(/\D/g, "");
+
+    if (fullName.length < 2 || !/^[\p{L}\s'-]+$/u.test(fullName)) {
+      setMessage("Please enter a valid full name.");
+      return;
+    }
+
+    if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+      setMessage("Please enter a valid phone number.");
+      return;
+    }
+
+    if (!date) {
+      setMessage("Please select an inspection date.");
+      return;
+    }
+
+    if (date < today) {
+      setMessage("Inspection date cannot be in the past.");
+      return;
+    }
+
+    if (!time) {
+      setMessage("Please select an inspection time.");
+      return;
+    }
+
+    if (date === today && time <= currentTime) {
+      setMessage("Please select a future inspection time.");
+      return;
+    }
 
     addInspection({
       propertyId: property.id,
       propertyName: property.name,
       propertyLocation: property.location,
       agentId: property.agentId || null,
-      customerName: formData.get("fullName"),
-      phone: formData.get("phone"),
-      inspectionDate: formData.get("inspectionDate"),
-      inspectionTime: formData.get("inspectionTime"),
+      customerName: fullName,
+      phone,
+      inspectionDate: date,
+      inspectionTime: time,
     });
 
     navigate("/activity");
@@ -40,7 +79,7 @@ function InspectionPage() {
   const property =
     properties.find((item) => item.id === Number(id)) ||
     agentProperties.find(
-      (item) => item.id === Number(id) && item.listingStatus === "Approved"
+      (item) => item.id === Number(id) && item.listingStatus === "Approved",
     );
 
   if (!property) {
@@ -161,6 +200,11 @@ function InspectionPage() {
               />
             </div>
 
+            {message && (
+              <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+                {message}
+              </p>
+            )}
             <button
               type="submit"
               className="w-full rounded-full bg-[#174C3C] px-6 py-4 font-semibold text-white transition hover:bg-[#10392D]"

@@ -3,6 +3,36 @@ import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [message, setMessage] = useState("");
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    setMessage("");
+
+    const formData = new FormData(event.currentTarget);
+
+    const email = formData.get("email").trim();
+    const password = formData.get("password");
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage("Please enter a valid email address.");
+      return;
+    }
+
+    if (!password || password.trim().length === 0) {
+      setMessage("Please enter your password.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setMessage("Your password must be at least 8 characters long.");
+      return;
+    }
+
+    setMessage(
+      "Your details are valid. Login authentication is not connected yet.",
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
@@ -22,7 +52,7 @@ function LoginPage() {
         </div>
 
         <div className="rounded-2xl bg-white p-7 shadow-sm sm:p-10">
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="mb-2 block text-sm font-medium text-[#252925]">
                 Email address
@@ -47,6 +77,7 @@ function LoginPage() {
                 name="password"
                 placeholder="Enter your password"
                 required
+                minLength={8}
                 className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#174C3C]"
               />
 
@@ -58,6 +89,7 @@ function LoginPage() {
                 {showPassword ? "Hide password" : "Show password"}
               </button>
             </div>
+
             <div className="text-right">
               <Link
                 to="/forgot-password"
@@ -66,6 +98,15 @@ function LoginPage() {
                 Forgot password?
               </Link>
             </div>
+
+            {message && (
+              <p
+                role="alert"
+                className="text-center text-sm font-medium text-red-600"
+              >
+                {message}
+              </p>
+            )}
 
             <button
               type="submit"

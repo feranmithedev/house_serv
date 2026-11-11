@@ -58,16 +58,73 @@ function AddPropertyPage() {
       editingProperty.images ||
         (editingProperty.image
           ? [{ src: editingProperty.image, label: "Property image" }]
-          : [])
+          : []),
     );
   }, [editingProperty]);
 
   const formRef = useRef(null);
   const [message, setMessage] = useState("");
 
+  function validateProperty(formData) {
+    const name = formData.get("name")?.trim();
+    const description = formData.get("description")?.trim();
+    const size = formData.get("size")?.trim();
+    const location = formData.get("location")?.trim();
+    const price = Number(formData.get("price"));
+    const bedrooms = formData.get("bedrooms");
+    const bathrooms = formData.get("bathrooms");
+
+    if (!name || name.length < 3) {
+      return "Property name must contain at least 3 characters.";
+    }
+
+    if (!description || description.length < 20) {
+      return "Please provide a description of at least 20 characters.";
+    }
+
+    if (!size) {
+      return "Please enter the property size.";
+    }
+
+    if (!location || location.length < 3) {
+      return "Please enter a valid property location.";
+    }
+
+    if (!Number.isFinite(price) || price <= 0) {
+      return "Please enter a valid property price.";
+    }
+
+    if (propertyType !== "Land") {
+      if (bedrooms !== "" && Number(bedrooms) < 0) {
+        return "Bedrooms cannot be negative.";
+      }
+
+      if (bathrooms !== "" && Number(bathrooms) < 0) {
+        return "Bathrooms cannot be negative.";
+      }
+    }
+
+    if (existingImages.length === 0 && images.length === 0) {
+      return "Please upload at least one property image.";
+    }
+
+    return "";
+  }
+
   async function saveProperty(listingStatus) {
     try {
       const formData = new FormData(formRef.current);
+
+      if (listingStatus === "Pending Review") {
+        const validationError = validateProperty(formData);
+
+        if (validationError) {
+          setMessage(validationError);
+          return;
+        }
+      }
+
+      setMessage("");
 
       const hasInformation =
         formData.get("name")?.trim() ||
@@ -80,7 +137,7 @@ function AddPropertyPage() {
 
       if (listingStatus === "Draft" && !hasInformation) {
         setMessage(
-          "Please enter at least one property detail before saving a draft."
+          "Please enter at least one property detail before saving a draft.",
         );
         return;
       }
@@ -89,7 +146,7 @@ function AddPropertyPage() {
         images.map(async (image) => ({
           src: await readImageAsDataURL(image),
           label: image.name,
-        }))
+        })),
       );
 
       const allImages = [...existingImages, ...newImages];
@@ -123,7 +180,7 @@ function AddPropertyPage() {
         setMessage(
           listingStatus === "Draft"
             ? "Your property has been saved as a draft!"
-            : "Your property has been submitted for admin approval!"
+            : "Your property has been submitted for admin approval!",
         );
       }
     } catch (error) {
@@ -391,7 +448,6 @@ function AddPropertyPage() {
                 multiple
                 onChange={handleImageChange}
                 className="hidden"
-                required
               />
             </label>
 
@@ -410,8 +466,8 @@ function AddPropertyPage() {
                       onClick={() =>
                         setExistingImages((current) =>
                           current.filter(
-                            (_, imageIndex) => imageIndex !== index
-                          )
+                            (_, imageIndex) => imageIndex !== index,
+                          ),
                         )
                       }
                       className="absolute right-2 top-2 rounded-full bg-white p-1.5 text-red-600 shadow"
@@ -432,7 +488,7 @@ function AddPropertyPage() {
                       type="button"
                       onClick={() =>
                         setImages((currentImages) =>
-                          currentImages.filter((_, i) => i !== index)
+                          currentImages.filter((_, i) => i !== index),
                         )
                       }
                       className="absolute right-2 top-2 rounded-full bg-white p-1.5 text-red-500 shadow"
