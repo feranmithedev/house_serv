@@ -164,7 +164,15 @@ function AddPropertyPage() {
         size: formData.get("size"),
         image: allImages[0]?.src || "",
         images: allImages,
-        agentId: editingProperty?.agentId || "demo-agent",
+        agentId:
+          editingProperty?.agentId ||
+          JSON.parse(localStorage.getItem("houseServUser") || "{}").email ||
+          "demo-agent",
+
+        agentEmail:
+          editingProperty?.agentEmail ||
+          JSON.parse(localStorage.getItem("houseServUser") || "{}").email ||
+          "",
       };
 
       if (isEditing) {

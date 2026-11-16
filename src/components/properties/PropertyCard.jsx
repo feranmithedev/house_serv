@@ -1,11 +1,10 @@
 import { BedDouble, Bath, Ruler, MapPin, Heart } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { useSavedProperties } from '../../context/useSavedProperties'
+import { useSavedProperties } from "../../context/useSavedProperties";
 
 function PropertyCard({ property }) {
-
   const navigate = useNavigate();
-  const { toggleSaved, isSaved } = useSavedProperties()
+  const { toggleSaved, isSaved } = useSavedProperties();
 
   return (
     <article
@@ -26,29 +25,33 @@ function PropertyCard({ property }) {
 
         <button
           type="button"
-          aria-label={isSaved(property.id) ? 'Remove from saved properties' : 'Save property'}
+          aria-label={
+            isSaved(property.id)
+              ? "Remove from saved properties"
+              : "Save property"
+          }
           onClick={(e) => {
-            e.stopPropagation()
-            toggleSaved(property.id)
+            e.stopPropagation();
+            toggleSaved(property.id);
           }}
           className={`absolute right-4 top-4 rounded-full bg-white p-2.5 shadow-sm transition ${
             isSaved(property.id)
-              ? 'text-red-500'
-              : 'text-gray-600 hover:text-red-500'
+              ? "text-red-500"
+              : "text-gray-600 hover:text-red-500"
           }`}
         >
           <Heart
             size={19}
-            fill={isSaved(property.id) ? 'currentColor' : 'none'}
+            fill={isSaved(property.id) ? "currentColor" : "none"}
           />
         </button>
       </div>
 
       {/* Property information */}
       <div className="p-5">
-        <div className="mb-3 flex items-center gap-1.5 text-sm text-gray-500">
-          <MapPin size={15} className="text-[#174C3C]" />
-          {property.location}
+        <div className="mb-3 flex min-w-0 items-start gap-1.5 text-sm text-gray-500">
+          <MapPin size={15} className="mt-0.5 shrink-0 text-[#174C3C]" />
+          <span className="min-w-0 wrap-break-word">{property.location}</span>
         </div>
 
         <h3 className="text-lg font-semibold text-[#252925]">
@@ -62,7 +65,7 @@ function PropertyCard({ property }) {
           </span>
         </p>
 
-        <div className="flex items-center gap-4 text-sm text-gray-500">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
           {property.type !== "Land" && (
             <>
               <span className="flex items-center gap-1">

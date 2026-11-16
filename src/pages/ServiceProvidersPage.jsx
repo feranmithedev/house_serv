@@ -1,9 +1,11 @@
 import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
 import {
   MapPin,
   BriefcaseBusiness,
   ArrowLeft,
   ArrowRight,
+  Search,
   Users,
   Star,
 } from "lucide-react";
@@ -14,6 +16,7 @@ import { useReviews } from "../context/useReviews";
 
 function ServiceProvidersPage() {
   const { id } = useParams();
+  const [searchTerm, setSearchTerm] = useState("");
 
   const providers = useMarketplaceProviders();
   const { reviews } = useReviews();
@@ -23,6 +26,17 @@ function ServiceProvidersPage() {
   const serviceProviders = providers.filter(
     (provider) => provider.serviceId === Number(id),
   );
+
+  const filteredProviders = serviceProviders.filter((provider) => {
+    const search = searchTerm.trim().toLowerCase();
+
+    return (
+      provider.name?.toLowerCase().includes(search) ||
+      provider.location?.toLowerCase().includes(search) ||
+      provider.experience?.toLowerCase().includes(search) ||
+      provider.description?.toLowerCase().includes(search)
+    );
+  });
 
   if (!service) {
     return (
@@ -78,9 +92,21 @@ function ServiceProvidersPage() {
           </div>
         </div>
 
-        {serviceProviders.length > 0 ? (
+        <div className="mb-8 flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-5 shadow-sm">
+          <Search size={20} className="text-[#174C3C]" />
+
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search by provider name, location or experience..."
+            className="w-full bg-transparent py-4 text-sm outline-none"
+          />
+        </div>
+
+        {filteredProviders.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {serviceProviders.map((provider) => {
+            {filteredProviders.map((provider) => {
               const providerReviews = reviews.filter(
                 (review) => String(review.providerId) === String(provider.id),
               );
@@ -159,13 +185,13 @@ function ServiceProvidersPage() {
           <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
             <Users size={40} className="mx-auto text-[#174C3C]/50" />
 
-            <h2 className="mt-4 text-xl font-bold text-[#252925]">
-              No providers available yet
-            </h2>
+            {searchTerm.trim()
+              ? "No matching providers found"
+              : "No providers available yet"}
 
-            <p className="mt-2 text-sm text-gray-500">
-              We're working on bringing more professionals to this category.
-            </p>
+            {searchTerm.trim()
+              ? "Try searching with another name, location or keyword."
+              : "We're working on bringing more professionals to this category."}
           </div>
         )}
 

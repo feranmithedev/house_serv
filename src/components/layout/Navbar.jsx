@@ -1,9 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { House, Bookmark, UserCircle, Menu, X } from "lucide-react";
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false);
+      }
+    }
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -78,9 +91,12 @@ function Navbar() {
 
         {/* Mobile menu button */}
         <button
+          type="button"
           onClick={() => setMenuOpen(!menuOpen)}
-          className="rounded-lg p-2 text-gray-700 md:hidden"
+          className="rounded-lg p-2 text-gray-700 transition hover:bg-gray-100 md:hidden"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
         >
           {menuOpen ? <X size={25} /> : <Menu size={25} />}
         </button>
@@ -88,8 +104,11 @@ function Navbar() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="border-t border-gray-100 px-5 py-5 md:hidden">
-          <div className="flex flex-col gap-5">
+        <div
+          id="mobile-navigation"
+          className="border-t border-gray-100 bg-white px-5 py-6 shadow-lg md:hidden"
+        >
+          <div className="flex flex-col gap-6">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}

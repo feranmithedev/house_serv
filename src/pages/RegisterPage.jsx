@@ -52,7 +52,31 @@ function RegisterPage() {
       phone,
       accountType,
       profileComplete: accountType === "finder",
+      createdAt: new Date().toISOString(),
     };
+
+    // Get previously registered users
+    const registeredUsers = JSON.parse(
+      localStorage.getItem("houseServUsers") || "[]",
+    );
+
+    // Check whether this email already exists
+    const existingUserIndex = registeredUsers.findIndex(
+      (user) => user.email.toLowerCase() === email.toLowerCase(),
+    );
+
+    if (existingUserIndex !== -1) {
+      setMessage("An account with this email already exists.");
+      return;
+    }
+
+    // Add the new user
+    registeredUsers.push(userProfile);
+
+    localStorage.setItem("houseServUsers", JSON.stringify(registeredUsers));
+
+    // Save the currently logged-in user
+    localStorage.setItem("houseServUser", JSON.stringify(userProfile));
 
     localStorage.setItem("houseServUser", JSON.stringify(userProfile));
 

@@ -88,11 +88,11 @@ function HeroSection() {
             <img
               src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=85"
               alt="Beautiful modern residential home"
-              className="h-[350px] w-full object-cover md:h-[520px]"
+              className="h-87.5 w-full object-cover md:h-130"
             />
           </div>
 
-          <div className="absolute -bottom-5 left-5 rounded-xl bg-white p-4 shadow-lg md:left-[-25px]">
+          <div className="absolute -bottom-5 left-5 rounded-xl bg-white p-4 shadow-lg md:left-6.25">
             <p className="text-sm font-semibold text-[#252925]">
               More than a property
             </p>

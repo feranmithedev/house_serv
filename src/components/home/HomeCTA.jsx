@@ -39,7 +39,7 @@ function HomeCTA() {
 
             <Link
               to="/services"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 px-7 py-4 text-sm font-semibold text-[#fff] transition hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/60 px-7 py-4 text-sm font-semibold text-white transition hover:bg-white/10"
             >
               Explore home services
               <ArrowRight size={17} />

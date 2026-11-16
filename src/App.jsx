@@ -14,6 +14,7 @@ import { ReviewsProvider } from "./context/ReviewsProvider";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
 import HomePage from "./pages/HomePage";
 import AddPropertyPage from "./pages/AddPropertyPage";
 import PropertiesPage from "./pages/PropertiesPage";
@@ -111,6 +112,10 @@ function App() {
                         <Route
                           path="/dashboard/agent/inspections"
                           element={<AgentInspectionsPage />}
+                        />
+                        <Route
+                          path="/dashboard/admin"
+                          element={<AdminDashboardPage />}
                         />
                         <Route
                           path="/dashboard/admin/properties"

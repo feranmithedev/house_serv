@@ -1,4 +1,3 @@
-
 import {
   Zap,
   Droplets,
@@ -7,10 +6,10 @@ import {
   Hammer,
   Sparkles,
   ArrowRight,
-} from 'lucide-react'
-import { Link } from 'react-router-dom'
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
-import services from '../data/services'
+import services from "../data/services";
 const serviceIcons = {
   Zap,
   Droplets,
@@ -18,12 +17,11 @@ const serviceIcons = {
   Layers,
   Hammer,
   Sparkles,
-}
+};
 
 function ServicesPage() {
   return (
     <div className="min-h-screen bg-[#F7F3EA]">
-
       {/* Hero Section */}
       <section className="bg-[#174C3C] px-6 py-20 text-white md:py-28">
         <div className="mx-auto max-w-7xl">
@@ -36,8 +34,8 @@ function ServicesPage() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-base leading-7 text-white/75 md:text-lg">
-            From everyday repairs to major home improvements, discover
-            services that help you maintain, improve and enjoy your space.
+            From everyday repairs to major home improvements, discover services
+            that help you maintain, improve and enjoy your space.
           </p>
         </div>
       </section>
@@ -45,7 +43,6 @@ function ServicesPage() {
       {/* Services Section */}
       <section className="px-6 py-20">
         <div className="mx-auto max-w-7xl">
-
           <div className="mb-12">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#174C3C]">
               Browse services
@@ -56,44 +53,58 @@ function ServicesPage() {
             </h2>
 
             <p className="mt-4 max-w-2xl leading-7 text-gray-600">
-              Explore our service categories and find the right help for
-              your next home project.
+              Explore our service categories and find the right help for your
+              next home project.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => {
-              const Icon = serviceIcons[service.icon]
+          {services.length > 0 ? (
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {services.map((service) => {
+                const Icon = serviceIcons[service.icon];
 
-              return (
-                <div
-                  key={service.id}
-                  className="group rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
-                >
-                  <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C] transition group-hover:bg-[#174C3C] group-hover:text-white">
-                    <Icon size={26} />
-                  </div>
-
-                  <h3 className="mt-6 text-xl font-bold text-[#252925]">
-                    {service.name}
-                  </h3>
-
-                  <p className="mt-3 min-h-16 text-sm leading-6 text-gray-600">
-                    {service.description}
-                  </p>
-
-                  <Link
-                    to={`/services/${service.id}`}
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#174C3C] transition hover:gap-3"
+                return (
+                  <div
+                    key={service.id}
+                    className="group rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
                   >
-                    Explore service
-                    <ArrowRight size={17} />
-                  </Link>
-                </div>
-              )
-            })}
-          </div>
+                    <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C] transition group-hover:bg-[#174C3C] group-hover:text-white">
+                      <Icon size={26} />
+                    </div>
 
+                    <h3 className="mt-6 text-xl font-bold text-[#252925]">
+                      {service.name}
+                    </h3>
+
+                    <p className="mt-3 min-h-16 text-sm leading-6 text-gray-600">
+                      {service.description}
+                    </p>
+
+                    <Link
+                      to={`/services/${service.id}`}
+                      className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#174C3C] transition hover:gap-3"
+                    >
+                      Explore service
+                      <ArrowRight size={17} />
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+              <Sparkles size={42} className="mx-auto text-[#174C3C]/50" />
+
+              <h3 className="mt-5 text-xl font-bold text-[#252925]">
+                No services available yet
+              </h3>
+
+              <p className="mt-2 text-sm text-gray-500">
+                We're working on bringing helpful home services to the platform.
+                Please check back soon.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -105,8 +116,8 @@ function ServicesPage() {
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl leading-7 text-gray-600">
-            Explore our service categories and discover professionals
-            who can help bring your home projects to life.
+            Explore our service categories and discover professionals who can
+            help bring your home projects to life.
           </p>
 
           <Link
@@ -118,9 +129,8 @@ function ServicesPage() {
           </Link>
         </div>
       </section>
-
     </div>
-  )
+  );
 }
 
-export default ServicesPage
+export default ServicesPage;

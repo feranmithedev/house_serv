@@ -22,18 +22,30 @@ function HouseFinderDashboard() {
     {
       title: "Saved Properties",
       value: savedProperties.length,
+      description:
+        savedProperties.length === 0
+          ? "You haven't saved any properties yet."
+          : "Properties saved for later.",
       icon: Bookmark,
       link: "/saved",
     },
     {
       title: "Inspections",
       value: inspections.length,
+      description:
+        inspections.length === 0
+          ? "Your inspection bookings will appear here."
+          : "View your property inspections.",
       icon: CalendarDays,
       link: "/activity",
     },
     {
       title: "Service Requests",
       value: serviceRequests.length,
+      description:
+        serviceRequests.length === 0
+          ? "You haven't made any service requests yet."
+          : "Track your home service requests.",
       icon: ClipboardList,
       link: "/activity",
     },
@@ -99,7 +111,13 @@ function HouseFinderDashboard() {
                   {stat.value}
                 </h2>
 
-                <p className="mt-1 text-sm text-gray-500">{stat.title}</p>
+                <p className="mt-1 text-sm font-medium text-gray-700">
+                  {stat.title}
+                </p>
+
+                <p className="mt-2 text-xs leading-5 text-gray-500">
+                  {stat.description}
+                </p>
               </Link>
             );
           })}

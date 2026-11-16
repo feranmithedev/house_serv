@@ -6,20 +6,20 @@ function PropertyGallery({ images, propertyName }) {
 
   function showPrevious() {
     setActiveImage((current) =>
-      current === 0 ? images.length - 1 : current - 1
+      current === 0 ? images.length - 1 : current - 1,
     );
   }
 
   function showNext() {
     setActiveImage((current) =>
-      current === images.length - 1 ? 0 : current + 1
+      current === images.length - 1 ? 0 : current + 1,
     );
   }
 
   return (
     <div className="w-full">
       {/* Main image */}
-      <div className="group relative h-[300px] overflow-hidden bg-gray-100 md:h-[500px]">
+      <div className="group relative h-64 overflow-hidden bg-gray-100 sm:h-80 md:h-125">
         <img
           key={activeImage}
           src={images[activeImage].src}
@@ -35,7 +35,7 @@ function PropertyGallery({ images, propertyName }) {
         <button
           onClick={showPrevious}
           aria-label="Previous image"
-          className="absolute left-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#174C3C] shadow-md transition hover:bg-white"
+          className="absolute left-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#174C3C] shadow-md transition hover:bg-white sm:left-4 sm:h-11 sm:w-11"
         >
           <ChevronLeft size={24} />
         </button>
@@ -44,7 +44,7 @@ function PropertyGallery({ images, propertyName }) {
         <button
           onClick={showNext}
           aria-label="Next image"
-          className="absolute right-4 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#174C3C] shadow-md transition hover:bg-white"
+          className="absolute right-2 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-[#174C3C] shadow-md transition hover:bg-white sm:right-4 sm:h-11 sm:w-11"
         >
           <ChevronRight size={24} />
         </button>
@@ -56,13 +56,13 @@ function PropertyGallery({ images, propertyName }) {
       </div>
 
       {/* Thumbnail images */}
-      <div className="flex gap-3 overflow-x-auto bg-white p-4">
+      <div className="flex gap-2 overflow-x-auto bg-white p-3 sm:gap-3 sm:p-4">
         {images.map((image, index) => (
           <button
             key={index}
             onClick={() => setActiveImage(index)}
             aria-label={`View image ${index + 1}`}
-            className={`h-20 w-28 flex-shrink-0 overflow-hidden rounded-lg border-2 transition ${
+            className={`h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition sm:h-20 sm:w-28 ${
               activeImage === index
                 ? "border-[#174C3C]"
                 : "border-transparent opacity-70 hover:opacity-100"

@@ -94,7 +94,7 @@ function ServiceRequestPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-3xl">
         <Link
           to={`/providers/${provider.id}`}
@@ -119,8 +119,8 @@ function ServiceRequestPage() {
           </p>
         </div>
 
-        <div className="rounded-2xl bg-white p-7 shadow-sm md:p-10">
-          <div className="rounded-xl bg-[#F7F3EA] p-5">
+        <div className="rounded-2xl bg-white p-5 shadow-sm sm:p-7 md:p-10">
+          <div className="min-w-0 rounded-xl bg-[#F7F3EA] p-4 sm:p-5">
             <div className="flex items-center gap-3">
               <ClipboardList className="text-[#174C3C]" size={24} />
 
@@ -130,7 +130,7 @@ function ServiceRequestPage() {
               </div>
             </div>
 
-            <div className="mt-4 flex items-center gap-3">
+            <div className="mt-4 flex min-w-0 items-start gap-3">
               <MapPin className="text-[#174C3C]" size={21} />
 
               <div>
@@ -203,7 +203,7 @@ function ServiceRequestPage() {
               />
             </div>
 
-            <div className="rounded-xl border border-amber-200 bg-amber-50 p-5">
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4 sm:p-5">
               <h3 className="font-semibold text-amber-900">
                 Your protection matters to us
               </h3>

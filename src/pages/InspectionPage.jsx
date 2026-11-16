@@ -100,7 +100,7 @@ function InspectionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-12">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-3xl">
         <button
           onClick={() => navigate(-1)}
@@ -110,7 +110,7 @@ function InspectionPage() {
           Go back
         </button>
 
-        <div className="rounded-3xl bg-white p-8 shadow-sm">
+        <div className="rounded-3xl bg-white p-5 shadow-sm sm:p-8">
           <p className="text-sm font-semibold uppercase tracking-wider text-[#174C3C]">
             Property inspection
           </p>
@@ -123,12 +123,12 @@ function InspectionPage() {
             Choose your preferred date and time to visit this property.
           </p>
 
-          <div className="mt-8 rounded-2xl bg-[#F7F3EA] p-5">
+          <div className="mt-8 min-w-0 rounded-2xl bg-[#F7F3EA] p-4 sm:p-5">
             <h2 className="font-bold text-[#252925]">{property.name}</h2>
 
-            <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-              <MapPin size={16} />
-              {property.location}
+            <p className="mt-2 flex min-w-0 items-start gap-2 text-sm text-gray-500">
+              <MapPin size={16} className="mt-0.5 shrink-0" />
+              <span className="wrap-break-word">{property.location}</span>
             </p>
 
             <p className="mt-3 font-bold text-[#174C3C]">
