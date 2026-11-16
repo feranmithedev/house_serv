@@ -33,7 +33,7 @@ function AdminAgentReviewsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-12">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-5xl">
         <Link
           to="/"
@@ -64,14 +64,14 @@ function AdminAgentReviewsPage() {
         )}
 
         <div className="mb-10 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-gray-500">Pending Applications</p>
             <p className="mt-2 text-3xl font-bold text-[#252925]">
               {pendingApplications.length}
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-gray-500">Reviewed Applications</p>
             <p className="mt-2 text-3xl font-bold text-[#252925]">
               {reviewedApplications.length}
@@ -101,9 +101,9 @@ function AdminAgentReviewsPage() {
               {pendingApplications.map((application) => (
                 <div
                   key={application.id}
-                  className="rounded-2xl bg-white p-6 shadow-sm"
+                  className="min-w-0 rounded-2xl bg-white p-4 shadow-sm sm:p-6"
                 >
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-5">
                     <div>
                       <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
                         Pending
@@ -126,21 +126,21 @@ function AdminAgentReviewsPage() {
 
                   <div className="mt-6 grid gap-4 border-t border-gray-100 pt-5 sm:grid-cols-2">
                     <div>
-                      <p className="text-xs text-gray-400">Email address</p>
+                      <p className="text-xs wrap-break-word text-gray-400">Email address</p>
                       <p className="mt-1 text-sm text-[#252925]">
                         {application.email}
                       </p>
                     </div>
 
                     <div>
-                      <p className="text-xs text-gray-400">Phone number</p>
+                      <p className="text-xs wrap-break-word text-gray-400">Phone number</p>
                       <p className="mt-1 text-sm text-[#252925]">
                         {application.phone}
                       </p>
                     </div>
 
                     <div className="sm:col-span-2">
-                      <p className="text-xs text-gray-400">Business address</p>
+                      <p className="text-xs wrap-break-word text-gray-400">Business address</p>
                       <p className="mt-1 text-sm text-[#252925]">
                         {application.businessAddress}
                       </p>
@@ -180,7 +180,7 @@ function AdminAgentReviewsPage() {
               {reviewedApplications.map((application) => (
                 <div
                   key={application.id}
-                  className="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+                  className="flex min-w-0 flex-col gap-3 rounded-xl bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5"
                 >
                   <div>
                     <h3 className="font-semibold text-[#252925]">

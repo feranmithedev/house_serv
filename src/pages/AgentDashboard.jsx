@@ -70,7 +70,7 @@ function AgentDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-5 py-10 sm:px-8">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-8 sm:py-10">
       <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="mb-8">
@@ -88,10 +88,10 @@ function AgentDashboard() {
         </div>
 
         {/* Verification Notice */}
-        <div className="mb-8 flex items-start gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
+        <div className="mb-8 flex items-start gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4 sm:gap-4 sm:p-5">
           <ShieldCheck className="mt-1 shrink-0 text-amber-600" size={25} />
 
-          <div>
+          <div className="min-w-0">
             <h2 className="font-bold text-amber-900">Agent verification</h2>
 
             <p className="mt-1 text-sm leading-6 text-amber-800">
@@ -109,7 +109,7 @@ function AgentDashboard() {
             return (
               <div
                 key={stat.title}
-                className="rounded-2xl bg-white p-6 shadow-sm"
+                className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10">
                   <Icon size={23} className="text-[#174C3C]" />
@@ -158,13 +158,13 @@ function AgentDashboard() {
           </div>
 
           <div className="mt-5 grid gap-5 sm:grid-cols-3">
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <Clock className="text-amber-500" size={25} />
               <h3 className="mt-4 text-2xl font-bold">{pendingInspections}</h3>
               <p className="mt-1 text-sm text-gray-500">Pending requests</p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <CheckCircle className="text-green-600" size={25} />
               <h3 className="mt-4 text-2xl font-bold">
                 {completedInspections}
@@ -174,7 +174,7 @@ function AgentDashboard() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <XCircle className="text-red-500" size={25} />
               <h3 className="mt-4 text-2xl font-bold">
                 {cancelledInspections}
@@ -188,7 +188,7 @@ function AgentDashboard() {
 
         {/* Property Listings */}
 
-        <section className="mt-4 rounded-2xl bg-white p-6 shadow-sm sm:p-8">
+        <section className="mt-4 rounded-2xl bg-white p-5 shadow-sm sm:p-6 md:p-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-xl font-bold text-[#252925]">

@@ -17,14 +17,14 @@ function AdminPropertyReviewsPage() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const pendingProperties = agentProperties.filter(
-    (property) => property.listingStatus === "Pending Review"
+    (property) => property.listingStatus === "Pending Review",
   );
 
   function handleReview(propertyId, status) {
     const action = status === "Approved" ? "approve" : "reject";
 
     const confirmed = window.confirm(
-      `Are you sure you want to ${action} this property?`
+      `Are you sure you want to ${action} this property?`,
     );
 
     if (!confirmed) return;
@@ -37,12 +37,12 @@ function AdminPropertyReviewsPage() {
     setMessage(
       status === "Approved"
         ? "Property approved successfully!"
-        : "Property rejected successfully."
+        : "Property rejected successfully.",
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-5 py-10 sm:px-8">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-8 sm:py-10">
       <div className="mx-auto max-w-6xl">
         <Link
           to="/"
@@ -73,13 +73,13 @@ function AdminPropertyReviewsPage() {
           </p>
         )}
 
-        <div className="mb-6 rounded-2xl bg-white p-6 shadow-sm">
-          <div className="flex items-center gap-4">
+        <div className="mb-6 rounded-2xl bg-white p-4 shadow-sm sm:p-6">
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-yellow-700">
               <Clock size={24} />
             </div>
 
-            <div>
+            <div className="min-w-0">
               <p className="text-sm text-gray-500">Awaiting Review</p>
               <p className="text-2xl font-bold text-[#252925]">
                 {pendingProperties.length}
@@ -89,7 +89,7 @@ function AdminPropertyReviewsPage() {
         </div>
 
         {pendingProperties.length === 0 ? (
-          <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+          <div className="rounded-2xl bg-white px-4 py-12 text-center shadow-sm sm:px-6 sm:py-16">
             <House size={40} className="mx-auto text-gray-400" />
 
             <h2 className="mt-4 text-xl font-bold text-[#252925]">
@@ -117,8 +117,8 @@ function AdminPropertyReviewsPage() {
                     {(property.images?.length
                       ? property.images
                       : property.image
-                      ? [{ src: property.image, name: "Property image" }]
-                      : []
+                        ? [{ src: property.image, name: "Property image" }]
+                        : []
                     ).map((image, index) => (
                       <button
                         key={index}
@@ -142,7 +142,7 @@ function AdminPropertyReviewsPage() {
                   )}
                 </div>
 
-                <div className="flex flex-1 flex-col p-6">
+                <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
                   {/* Property heading */}
                   <div>
                     <div className="flex flex-wrap items-center justify-between gap-3">
@@ -159,9 +159,11 @@ function AdminPropertyReviewsPage() {
                       {property.name || "Unnamed Property"}
                     </h2>
 
-                    <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                      <MapPin size={16} />
-                      {property.location || "Location not provided"}
+                    <p className="mt-2 flex min-w-0 items-start gap-2 text-sm text-gray-500">
+                      <MapPin size={16} className="mt-0.5 shrink-0" />
+                      <span className="wrap-break-word">
+                        {property.location || "Location not provided"}
+                      </span>
                     </p>
                   </div>
 
@@ -189,7 +191,7 @@ function AdminPropertyReviewsPage() {
                       Property Information
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-1 gap-3 min-[400px]:grid-cols-2">
                       {[
                         ["Property Type", property.type || "Not specified"],
                         ["Bedrooms", property.bedrooms || "N/A"],
@@ -224,11 +226,11 @@ function AdminPropertyReviewsPage() {
                   </div>
 
                   {/* Review actions */}
-                  <div className="mt-auto flex flex-wrap gap-3 pt-8">
+                  <div className="mt-auto flex flex-col gap-3 pt-8 min-[420px]:flex-row min-[420px]:flex-wrap">
                     <button
                       type="button"
                       onClick={() => handleReview(property.id, "Approved")}
-                      className="inline-flex items-center gap-2 rounded-xl bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#103A2D]"
+                      className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#103A2D] min-[420px]:w-auto"
                     >
                       <CheckCircle size={17} />
                       Approve Property
@@ -237,7 +239,7 @@ function AdminPropertyReviewsPage() {
                     <button
                       type="button"
                       onClick={() => handleReview(property.id, "Rejected")}
-                      className="inline-flex items-center gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50 min-[420px]:w-auto"
                     >
                       <XCircle size={17} />
                       Reject

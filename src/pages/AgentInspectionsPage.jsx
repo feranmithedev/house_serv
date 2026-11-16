@@ -19,7 +19,7 @@ function AgentInspectionsPage() {
   const currentAgentId = "demo-agent";
 
   const agentInspections = inspections.filter(
-    (inspection) => inspection.agentId === currentAgentId
+    (inspection) => inspection.agentId === currentAgentId,
   );
 
   const [filter, setFilter] = useState("All");
@@ -51,7 +51,7 @@ function AgentInspectionsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-5 py-10 sm:px-8">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-8 sm:py-10">
       <div className="mx-auto max-w-7xl">
         {/* Back Navigation */}
         <Link
@@ -78,12 +78,12 @@ function AgentInspectionsPage() {
         </div>
 
         {/* Filters */}
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="mt-8 flex flex-wrap gap-2 sm:gap-3">
           {filters.map((item) => (
             <button
               key={item}
               onClick={() => setFilter(item)}
-              className={`rounded-full px-5 py-2.5 text-sm font-semibold transition ${
+              className={`rounded-full px-4 py-2.5 text-xs font-semibold transition sm:px-5 sm:text-sm ${
                 filter === item
                   ? "bg-[#174C3C] text-white"
                   : "bg-white text-gray-600 hover:bg-gray-100"
@@ -97,7 +97,7 @@ function AgentInspectionsPage() {
         {/* Inspection Requests */}
         <section className="mt-8">
           {filteredInspections.length === 0 ? (
-            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+            <div className="rounded-2xl bg-white px-4 py-12 text-center shadow-sm sm:px-6 sm:py-16">
               <ClipboardList size={42} className="mx-auto text-[#174C3C]/50" />
 
               <h2 className="mt-4 text-xl font-bold text-[#252925]">
@@ -116,11 +116,11 @@ function AgentInspectionsPage() {
               {filteredInspections.map((inspection) => (
                 <article
                   key={inspection.id}
-                  className="rounded-2xl bg-white p-6 shadow-sm sm:p-8"
+                  className="min-w-0 rounded-2xl bg-white p-4 shadow-sm sm:p-6 md:p-8"
                 >
                   {/* Property and Status */}
                   <div className="flex flex-wrap items-start justify-between gap-4">
-                    <div>
+                    <div className="min-w-0">
                       <p className="text-xs font-semibold uppercase tracking-wider text-[#174C3C]">
                         Property Inspection
                       </p>
@@ -129,9 +129,11 @@ function AgentInspectionsPage() {
                         {inspection.propertyName}
                       </h2>
 
-                      <p className="mt-2 flex items-center gap-2 text-sm text-gray-500">
-                        <MapPin size={16} />
-                        {inspection.propertyLocation}
+                      <p className="mt-2 flex min-w-0 items-start gap-2 text-sm text-gray-500">
+                        <MapPin size={16} className="mt-0.5 shrink-0" />
+                        <span className="wrap-break-word">
+                          {inspection.propertyLocation}
+                        </span>
                       </p>
                     </div>
 
@@ -140,12 +142,12 @@ function AgentInspectionsPage() {
                         inspection.status === "Pending"
                           ? "bg-amber-100 text-amber-800"
                           : inspection.status === "Accepted"
-                          ? "bg-green-100 text-green-800"
-                          : inspection.status === "Declined"
-                          ? "bg-red-100 text-red-800"
-                          : inspection.status === "Cancelled"
-                          ? "bg-gray-100 text-gray-700"
-                          : "bg-blue-100 text-blue-800"
+                            ? "bg-green-100 text-green-800"
+                            : inspection.status === "Declined"
+                              ? "bg-red-100 text-red-800"
+                              : inspection.status === "Cancelled"
+                                ? "bg-gray-100 text-gray-700"
+                                : "bg-blue-100 text-blue-800"
                       }`}
                     >
                       {inspection.status}
@@ -153,7 +155,7 @@ function AgentInspectionsPage() {
                   </div>
 
                   {/* House Finder Details */}
-                  <div className="mt-6 rounded-xl bg-[#F7F3EA] p-5">
+                  <div className="mt-6 min-w-0 rounded-xl bg-[#F7F3EA] p-4 sm:p-5">
                     <h3 className="font-bold text-[#252925]">
                       House Finder Details
                     </h3>

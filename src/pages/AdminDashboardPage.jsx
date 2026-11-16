@@ -112,7 +112,7 @@ function AdminDashboardPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-12">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-7xl">
         {/* Page Heading */}
         <div className="mb-10">
@@ -137,7 +137,7 @@ function AdminDashboardPage() {
             return (
               <div
                 key={stat.title}
-                className="rounded-2xl bg-white p-6 shadow-sm"
+                className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6"
               >
                 <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
                   <Icon size={24} />
@@ -164,7 +164,7 @@ function AdminDashboardPage() {
           </h2>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">
                 Approved Properties
               </p>
@@ -178,7 +178,7 @@ function AdminDashboardPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">
                 Rejected Properties
               </p>
@@ -192,7 +192,7 @@ function AdminDashboardPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">
                 Draft Properties
               </p>
@@ -215,7 +215,7 @@ function AdminDashboardPage() {
           </h2>
 
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">House Finders</p>
 
               <h3 className="mt-3 text-3xl font-bold text-[#174C3C]">
@@ -227,7 +227,7 @@ function AdminDashboardPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">
                 Real Estate Agents
               </p>
@@ -241,7 +241,7 @@ function AdminDashboardPage() {
               </p>
             </div>
 
-            <div className="rounded-2xl bg-white p-6 shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
               <p className="text-sm font-medium text-gray-500">
                 Service Providers
               </p>
@@ -277,9 +277,9 @@ function AdminDashboardPage() {
               return (
                 <div
                   key={section.title}
-                  className="rounded-2xl bg-white p-7 shadow-sm"
+                  className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7"
                 >
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
                     <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
                       <Icon size={24} />
                     </div>
@@ -311,10 +311,10 @@ function AdminDashboardPage() {
         </div>
 
         {/* Admin Notice */}
-        <div className="mt-12 flex items-start gap-4 rounded-2xl bg-[#E5EBE4] p-6">
+        <div className="mt-12 flex items-start gap-3 rounded-2xl bg-[#E5EBE4] p-4 sm:gap-4 sm:p-6">
           <ShieldCheck size={25} className="mt-1 shrink-0 text-[#174C3C]" />
 
-          <div>
+          <div className="min-w-0">
             <h3 className="font-bold text-[#252925]">
               Platform administration
             </h3>

@@ -59,7 +59,7 @@ function ProviderDetailsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-5xl">
         <Link
           to={`/services/${provider.serviceId}/providers`}
@@ -69,7 +69,7 @@ function ProviderDetailsPage() {
           Back to providers
         </Link>
 
-        <div className="mt-10 rounded-3xl bg-white p-8 shadow-sm md:p-12">
+        <div className="mt-10 min-w-0 rounded-3xl bg-white p-5 shadow-sm sm:p-8 md:p-12">
           <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-[#174C3C]/10 text-[#174C3C]">
             <BriefcaseBusiness size={36} />
           </div>
@@ -98,22 +98,25 @@ function ProviderDetailsPage() {
             {provider.description}
           </p>
 
-          <div className="mt-8 grid gap-5 border-y border-gray-100 py-7 sm:grid-cols-2">
-            <div className="flex items-center gap-3">
-              <MapPin className="text-[#174C3C]" size={21} />
-              <div>
+          <div className="mt-8 grid min-w-0 gap-5 border-y border-gray-100 py-7 sm:grid-cols-2">
+            <div className="flex min-w-0 items-start gap-3">
+              <MapPin className="mt-0.5 shrink-0 text-[#174C3C]" size={21} />
+              <div className="min-w-0">
                 <p className="text-xs text-gray-400">Location</p>
-                <p className="font-semibold text-[#252925]">
+                <p className="wrap-break-word font-semibold text-[#252925]">
                   {provider.location}
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
-              <BriefcaseBusiness className="text-[#174C3C]" size={21} />
-              <div>
+            <div className="flex min-w-0 items-start gap-3">
+              <BriefcaseBusiness
+                className="mt-0.5 shrink-0 text-[#174C3C]"
+                size={21}
+              />
+              <div className="min-w-0">
                 <p className="text-xs text-gray-400">Experience</p>
-                <p className="font-semibold text-[#252925]">
+                <p className="wrap-break-word font-semibold text-[#252925]">
                   {provider.experience}
                 </p>
               </div>
@@ -199,7 +202,7 @@ function ProviderDetailsPage() {
                 </p>
               </div>
             ) : (
-              <div className="mt-6 flex gap-5 overflow-x-auto pb-4 snap-x snap-mandatory">
+              <div className="mt-6 flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory sm:gap-5">
                 {providerReviews.map((review) => (
                   <div
                     key={review.id}

@@ -48,7 +48,7 @@ function ServiceProviderDashboard() {
   ).length;
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-10">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto max-w-6xl">
         <div className="mb-10">
           <p className="text-sm font-semibold text-[#174C3C]">
@@ -64,13 +64,13 @@ function ServiceProviderDashboard() {
           </p>
         </div>
 
-        <div className="mb-8 rounded-2xl border border-[#174C3C]/10 bg-white p-7">
-          <div className="flex items-start gap-4">
+        <div className="mb-8 min-w-0 rounded-2xl border border-[#174C3C]/10 bg-white p-5 sm:p-7">
+          <div className="flex min-w-0 items-start gap-3 sm:gap-4">
             <div className="rounded-xl bg-[#174C3C]/10 p-3">
               <ShieldCheck className="text-[#174C3C]" size={28} />
             </div>
 
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               {user.profileComplete ? (
                 <>
                   <div className="flex flex-wrap items-center gap-3">
@@ -139,7 +139,7 @@ function ServiceProviderDashboard() {
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {/* Total Requests */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10">
               <ClipboardList size={25} className="text-[#174C3C]" />
             </div>
@@ -152,7 +152,7 @@ function ServiceProviderDashboard() {
           </div>
 
           {/* Pending Requests */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-amber-100">
               <ClipboardList size={25} className="text-amber-600" />
             </div>
@@ -165,7 +165,7 @@ function ServiceProviderDashboard() {
           </div>
 
           {/* Active Requests */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100">
               <ClipboardList size={25} className="text-blue-600" />
             </div>
@@ -178,7 +178,7 @@ function ServiceProviderDashboard() {
           </div>
 
           {/* Completed Requests */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl bg-green-100">
               <CheckCircle size={25} className="text-green-600" />
             </div>
@@ -192,7 +192,7 @@ function ServiceProviderDashboard() {
         </div>
 
         {myServiceRequests.length === 0 && (
-          <div className="mt-6 rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-12 text-center">
+          <div className="mt-6 rounded-2xl border border-dashed border-gray-300 bg-white px-4 py-10 text-center sm:px-6 sm:py-12">
             <ClipboardList size={40} className="mx-auto text-[#174C3C]/50" />
 
             <h3 className="mt-4 text-lg font-bold text-[#252925]">

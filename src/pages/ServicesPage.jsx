@@ -23,7 +23,7 @@ function ServicesPage() {
   return (
     <div className="min-h-screen bg-[#F7F3EA]">
       {/* Hero Section */}
-      <section className="bg-[#174C3C] px-6 py-20 text-white md:py-28">
+      <section className="bg-[#174C3C] px-4 py-16 text-white sm:px-6 sm:py-20 md:py-28">
         <div className="mx-auto max-w-7xl">
           <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[#D7C7A3]">
             House&Serv home services
@@ -41,7 +41,7 @@ function ServicesPage() {
       </section>
 
       {/* Services Section */}
-      <section className="px-6 py-20">
+      <section className="px-4 py-14 sm:px-6 sm:py-20">
         <div className="mx-auto max-w-7xl">
           <div className="mb-12">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#174C3C]">
@@ -66,7 +66,7 @@ function ServicesPage() {
                 return (
                   <div
                     key={service.id}
-                    className="group rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                    className="group min-w-0 rounded-2xl bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-7"
                   >
                     <div className="flex h-14 w-14 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C] transition group-hover:bg-[#174C3C] group-hover:text-white">
                       <Icon size={26} />
@@ -109,8 +109,8 @@ function ServicesPage() {
       </section>
 
       {/* CTA Section */}
-      <section className="px-6 pb-20">
-        <div className="mx-auto max-w-7xl rounded-3xl bg-white px-7 py-14 text-center shadow-sm md:px-16">
+      <section className="px-4 pb-14 sm:px-6 sm:pb-20">
+        <div className="mx-auto max-w-7xl rounded-3xl bg-white px-5 py-10 text-center shadow-sm sm:px-8 sm:py-14 md:px-16">
           <h2 className="text-3xl font-bold text-[#252925] md:text-4xl">
             Need help with your home?
           </h2>

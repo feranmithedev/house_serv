@@ -52,7 +52,7 @@ function ServiceDetailsPage() {
   return (
     <div className="min-h-screen bg-[#F7F3EA]">
       {/* Hero */}
-      <section className="bg-[#174C3C] px-6 py-20 text-white md:py-24">
+      <section className="bg-[#174C3C] px-4 py-16 text-white sm:px-6 sm:py-20 md:py-24">
         <div className="mx-auto max-w-7xl">
           <Link
             to="/services"
@@ -62,7 +62,7 @@ function ServiceDetailsPage() {
             All services
           </Link>
 
-          <div className="mt-12 flex flex-col gap-6 sm:flex-row sm:items-center">
+          <div className="mt-8 flex flex-col gap-5 sm:mt-12 sm:flex-row sm:items-center sm:gap-6">
             <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-2xl bg-white/10">
               <Icon size={38} />
             </div>
@@ -85,8 +85,8 @@ function ServiceDetailsPage() {
       </section>
 
       {/* Service Information */}
-      <section className="px-6 py-20">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 lg:grid-cols-3">
+      <section className="px-4 py-14 sm:px-6 sm:py-20">
+        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-8 lg:grid-cols-3 lg:gap-10">
           <div className="lg:col-span-2">
             <p className="text-sm font-semibold uppercase tracking-wider text-[#174C3C]">
               About this service
@@ -126,7 +126,7 @@ function ServiceDetailsPage() {
           </div>
 
           {/* Service CTA */}
-          <div className="h-fit rounded-2xl bg-white p-7 shadow-sm">
+          <div className="h-fit min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
               <Icon size={24} />
             </div>

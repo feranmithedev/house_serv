@@ -54,7 +54,7 @@ function ServiceProvidersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-7xl">
         <Link
           to={`/services/${id}`}
@@ -79,7 +79,7 @@ function ServiceProvidersPage() {
           </p>
         </div>
 
-        <div className="mb-8 flex items-center gap-3 rounded-xl bg-white p-5 shadow-sm">
+        <div className="mb-8 flex items-center gap-3 rounded-xl bg-white p-4 shadow-sm sm:p-5">
           <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
             <Users size={23} />
           </div>
@@ -92,14 +92,14 @@ function ServiceProvidersPage() {
           </div>
         </div>
 
-        <div className="mb-8 flex items-center gap-3 rounded-xl border border-gray-200 bg-white px-5 shadow-sm">
+        <div className="mb-8 flex min-w-0 items-center gap-3 rounded-xl border border-gray-200 bg-white px-4 shadow-sm sm:px-5">
           <Search size={20} className="text-[#174C3C]" />
 
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search by provider name, location or experience..."
+            placeholder="Search providers by name, location or experience..."
             className="w-full bg-transparent py-4 text-sm outline-none"
           />
         </div>
@@ -124,7 +124,7 @@ function ServiceProvidersPage() {
               return (
                 <article
                   key={provider.id}
-                  className="rounded-2xl bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg"
+                  className="min-w-0 rounded-2xl bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg sm:p-7"
                 >
                   <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#174C3C]/10 text-[#174C3C]">
                     <BriefcaseBusiness size={25} />
@@ -156,9 +156,9 @@ function ServiceProvidersPage() {
                     )}
                   </div>
 
-                  <div className="mt-4 flex items-center gap-2 text-sm text-gray-500">
-                    <MapPin size={16} />
-                    {provider.location}
+                  <div className="mt-4 flex min-w-0 items-start gap-2 text-sm text-gray-500">
+                    <MapPin size={16} className="mt-0.5 shrink-0" />
+                    <span className="wrap-break-word">{provider.location}</span>
                   </div>
 
                   <div className="mt-3 flex items-center gap-2 text-sm text-gray-500">
