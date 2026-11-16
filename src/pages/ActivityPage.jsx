@@ -50,8 +50,9 @@ function ActivityPage() {
   const pendingRequests = serviceRequests.filter(
     (request) => request.status === "Pending",
   ).length;
+
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-7xl">
         <Link
           to="/dashboard/agent"
@@ -77,7 +78,7 @@ function ActivityPage() {
 
         {/* Activity Overview */}
         <div className="mb-10 grid grid-cols-1 gap-5 sm:grid-cols-3">
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
               <CalendarDays size={23} />
             </div>
@@ -101,7 +102,7 @@ function ActivityPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
               <Wrench size={23} />
             </div>
@@ -130,7 +131,7 @@ function ActivityPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-[#174C3C]/10 text-[#174C3C]">
               <Clock size={23} />
             </div>
@@ -176,7 +177,7 @@ function ActivityPage() {
           </div>
 
           {filteredInspections.length === 0 ? (
-            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+            <div className="rounded-2xl bg-white px-4 py-12 text-center shadow-sm sm:px-6 sm:py-16">
               <CalendarDays size={40} className="mx-auto text-[#174C3C]/50" />
 
               <h3 className="mt-4 text-lg font-bold text-[#252925]">
@@ -206,7 +207,7 @@ function ActivityPage() {
               {filteredInspections.map((inspection) => (
                 <div
                   key={inspection.id}
-                  className="rounded-2xl bg-white p-6 shadow-sm"
+                  className="rounded-full px-3 py-2 text-xs font-semibold transition sm:px-4 sm:text-sm"
                 >
                   <div className="flex flex-col justify-between gap-4 sm:flex-row">
                     <div>
@@ -250,7 +251,7 @@ function ActivityPage() {
 
                     {(inspection.status === "Pending" ||
                       inspection.status === "Accepted") && (
-                      <div className="flex flex-wrap gap-3">
+                      <div className="flex flex-col gap-3 min-[420px]:flex-row min-[420px]:flex-wrap">
                         {inspection.status === "Accepted" && (
                           <button
                             onClick={() => {
@@ -267,7 +268,7 @@ function ActivityPage() {
                                 `${inspection.inspectionDate}T${inspection.inspectionTime}`,
                               ) > new Date()
                             }
-                            className="rounded-full bg-[#174C3C] px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#10392D] disabled:cursor-not-allowed disabled:opacity-50"
+                            className="rounded-full bg-[#174C3C] w-full justify-center min-[420px]:w-auto px-5 py-2 text-sm font-semibold text-white transition hover:bg-[#10392D] disabled:cursor-not-allowed disabled:opacity-50"
                           >
                             Mark as completed
                           </button>
@@ -283,7 +284,7 @@ function ActivityPage() {
                               cancelInspection(inspection.id);
                             }
                           }}
-                          className="rounded-full border border-red-200 px-5 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                          className="rounded-full border border-red-200 w-full justify-center min-[420px]:w-auto px-5 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-50"
                         >
                           Cancel inspection
                         </button>
@@ -331,7 +332,7 @@ function ActivityPage() {
           </div>
 
           {filteredServiceRequests.length === 0 ? (
-            <div className="rounded-2xl bg-white px-6 py-16 text-center shadow-sm">
+            <div className="rounded-2xl bg-white px-4 py-12 text-center shadow-sm sm:px-6 sm:py-16">
               <ClipboardList size={40} className="mx-auto text-[#174C3C]/50" />
 
               <h3 className="mt-4 text-lg font-bold text-[#252925]">
@@ -360,7 +361,7 @@ function ActivityPage() {
               {filteredServiceRequests.map((request) => (
                 <div
                   key={request.id}
-                  className="rounded-2xl bg-white p-6 shadow-sm"
+                  className="min-w-0 rounded-2xl bg-white p-4 shadow-sm sm:p-6"
                 >
                   <div className="flex flex-col justify-between gap-4 sm:flex-row">
                     <div>
@@ -407,7 +408,7 @@ function ActivityPage() {
                       Service description
                     </p>
 
-                    <p className="mt-2 text-sm leading-6 text-gray-500">
+                    <p className="mt-2 wrap-break-word text-sm leading-6 text-gray-500">
                       {request.description}
                     </p>
                   </div>

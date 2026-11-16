@@ -15,18 +15,18 @@ function AdminProviderReviewsPage() {
   const [message, setMessage] = useState("");
 
   const pendingApplications = applications.filter(
-    (application) => application.status === "Pending"
+    (application) => application.status === "Pending",
   );
 
   const reviewedApplications = applications.filter(
-    (application) => application.status !== "Pending"
+    (application) => application.status !== "Pending",
   );
 
   function handleReview(applicationId, status) {
     const action = status === "Approved" ? "approve" : "reject";
 
     const confirmed = window.confirm(
-      `Are you sure you want to ${action} this provider application?`
+      `Are you sure you want to ${action} this provider application?`,
     );
 
     if (!confirmed) return;
@@ -39,7 +39,7 @@ function AdminProviderReviewsPage() {
     });
 
     const currentUser = JSON.parse(
-      localStorage.getItem("houseServUser") || "{}"
+      localStorage.getItem("houseServUser") || "{}",
     );
 
     if (currentUser.email === application.email) {
@@ -48,7 +48,7 @@ function AdminProviderReviewsPage() {
         JSON.stringify({
           ...currentUser,
           providerApplicationStatus: status,
-        })
+        }),
       );
     }
 
@@ -56,7 +56,7 @@ function AdminProviderReviewsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-12">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-8 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-5xl">
         <Link
           to="/"
@@ -87,7 +87,7 @@ function AdminProviderReviewsPage() {
         )}
 
         <div className="mb-10 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-gray-500">Pending Applications</p>
 
             <p className="mt-2 text-3xl font-bold text-[#252925]">
@@ -95,7 +95,7 @@ function AdminProviderReviewsPage() {
             </p>
           </div>
 
-          <div className="rounded-2xl bg-white p-6 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-6">
             <p className="text-sm text-gray-500">Reviewed Applications</p>
 
             <p className="mt-2 text-3xl font-bold text-[#252925]">
@@ -110,7 +110,7 @@ function AdminProviderReviewsPage() {
           </h2>
 
           {pendingApplications.length === 0 ? (
-            <div className="rounded-2xl bg-white p-10 text-center shadow-sm">
+            <div className="min-w-0 rounded-2xl bg-white p-4 shadow-sm sm:p-6">
               <Clock size={32} className="mx-auto text-gray-400" />
 
               <h3 className="mt-4 font-bold text-[#252925]">
@@ -124,11 +124,8 @@ function AdminProviderReviewsPage() {
           ) : (
             <div className="space-y-5">
               {pendingApplications.map((application) => (
-                <div
-                  key={application.id}
-                  className="rounded-2xl bg-white p-6 shadow-sm"
-                >
-                  <div className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
+                <div className="rounded-2xl bg-white p-6 text-center shadow-sm sm:p-10">
+                  <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-5">
                     <div>
                       <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-semibold text-amber-700">
                         Pending
@@ -153,21 +150,21 @@ function AdminProviderReviewsPage() {
                   <div className="mt-6 grid gap-5 border-t border-gray-100 pt-5 sm:grid-cols-2">
                     <div>
                       <p className="text-xs text-gray-400">Email address</p>
-                      <p className="mt-1 text-sm text-[#252925]">
+                      <p className="mt-1 wrap-break-word text-sm text-[#252925]">
                         {application.email}
                       </p>
                     </div>
 
                     <div>
                       <p className="text-xs text-gray-400">Phone number</p>
-                      <p className="mt-1 text-sm text-[#252925]">
+                      <p className="mt-1 wrap-break-word text-sm text-[#252925]">
                         {application.phone}
                       </p>
                     </div>
 
                     <div>
                       <p className="text-xs text-gray-400">Business address</p>
-                      <p className="mt-1 text-sm text-[#252925]">
+                      <p className="mt-1 wrap-break-word text-sm text-[#252925]">
                         {application.businessAddress}
                       </p>
                     </div>
@@ -193,7 +190,7 @@ function AdminProviderReviewsPage() {
                             >
                               {category}
                             </span>
-                          )
+                          ),
                         )}
                       </div>
                     </div>
@@ -203,7 +200,7 @@ function AdminProviderReviewsPage() {
                         Qualifications or certifications
                       </p>
 
-                      <p className="mt-1 text-sm leading-6 text-[#252925]">
+                      <p className="mt-1 wrap-break-word text-sm leading-6 text-[#252925]">
                         {application.qualification || "Not provided"}
                       </p>
                     </div>
@@ -213,7 +210,7 @@ function AdminProviderReviewsPage() {
                         Description of services
                       </p>
 
-                      <p className="mt-1 text-sm leading-6 text-[#252925]">
+                      <p className="mt-1 wrap-break-word text-sm leading-6 text-[#252925]">
                         {application.description}
                       </p>
                     </div>
@@ -237,10 +234,10 @@ function AdminProviderReviewsPage() {
                     )}
                   </div>
 
-                  <div className="mt-6 flex flex-col gap-3 border-t border-gray-100 pt-5 sm:flex-row">
+                  <div className="mt-6 flex flex-col gap-3 border-t border-gray-100 pt-5 min-[420px]:flex-row min-[420px]:flex-wrap">
                     <button
                       onClick={() => handleReview(application.id, "Approved")}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10392D]"
+                      className="inline-flex items-center w-full justify-center min-[420px]:w-auto gap-2 rounded-xl bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10392D]"
                     >
                       <CheckCircle size={17} />
                       Approve Application
@@ -248,7 +245,7 @@ function AdminProviderReviewsPage() {
 
                     <button
                       onClick={() => handleReview(application.id, "Rejected")}
-                      className="inline-flex items-center justify-center gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
+                      className="inline-flex items-center w-full justify-center min-[420px]:w-auto gap-2 rounded-xl border border-red-200 px-5 py-3 text-sm font-semibold text-red-600 transition hover:bg-red-50"
                     >
                       <XCircle size={17} />
                       Reject Application
@@ -270,7 +267,7 @@ function AdminProviderReviewsPage() {
               {reviewedApplications.map((application) => (
                 <div
                   key={application.id}
-                  className="flex flex-col gap-3 rounded-xl bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+                  className="flex min-w-0 flex-col gap-3 rounded-xl bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-5"
                 >
                   <div>
                     <h3 className="font-semibold text-[#252925]">

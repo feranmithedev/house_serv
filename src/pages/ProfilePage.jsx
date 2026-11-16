@@ -34,7 +34,7 @@ function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F7F3EA] px-6 py-16">
+    <div className="min-h-screen bg-[#F7F3EA] px-4 py-10 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-7xl">
         {/* Page Heading */}
         <div className="mb-10">
@@ -53,7 +53,7 @@ function ProfilePage() {
 
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
           {/* Profile Information */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm lg:col-span-2">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7 lg:col-span-2">
             <div className="flex flex-col items-center gap-5 border-b border-gray-100 pb-7 sm:flex-row">
               <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[#174C3C]/10 text-[#174C3C]">
                 <UserRound size={36} />
@@ -168,7 +168,7 @@ function ProfilePage() {
                           {item.label}
                         </div>
 
-                        <p className="font-semibold text-[#252925]">
+                        <p className="wrap-break-word font-semibold text-[#252925]">
                           {item.value || "Not provided"}
                         </p>
                       </div>
@@ -181,7 +181,7 @@ function ProfilePage() {
                 <button
                   type="button"
                   onClick={handleSaveProfile}
-                  className="mt-8 rounded-lg bg-[#174C3C] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C] mr-2"
+                  className="mt-6 mr-2 rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C] sm:mt-8"
                 >
                   Save changes
                 </button>
@@ -190,7 +190,7 @@ function ProfilePage() {
               <button
                 type="button"
                 onClick={() => setIsEditing(!isEditing)}
-                className="mt-8 rounded-lg border border-[#174C3C] px-6 py-3 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C]/10"
+                className="mt-6 rounded-lg border border-[#174C3C] px-5 py-3 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C]/10 sm:mt-8"
               >
                 {isEditing ? "Cancel editing" : "Edit profile"}
               </button>
@@ -198,7 +198,7 @@ function ProfilePage() {
           </div>
 
           {/* Account Settings */}
-          <div className="rounded-2xl bg-white p-7 shadow-sm">
+          <div className="min-w-0 rounded-2xl bg-white p-5 shadow-sm sm:p-7">
             <h3 className="mb-6 text-lg font-bold text-[#252925]">
               Account settings
             </h3>
