@@ -17,6 +17,7 @@ function readImageAsDataURL(file) {
 
 function AddPropertyPage() {
   const [images, setImages] = useState([]);
+  const [customFeatures, setCustomFeatures] = useState([]);
   const [propertyType, setPropertyType] = useState("Apartment");
   const [listingType, setListingType] = useState("For Rent");
   const { agentProperties, addProperty, updateProperty } = useProperties();
@@ -53,6 +54,7 @@ function AddPropertyPage() {
 
     setPropertyType(editingProperty.type || "Apartment");
     setListingType(editingProperty.status || "For Rent");
+    setCustomFeatures(editingProperty.customFeatures || []);
 
     setExistingImages(
       editingProperty.images ||
@@ -161,6 +163,9 @@ function AddPropertyPage() {
         location: formData.get("location"),
         bedrooms: formData.get("bedrooms") || "",
         bathrooms: formData.get("bathrooms") || "",
+        customFeatures: customFeatures
+          .map((feature) => feature.trim())
+          .filter(Boolean),
         size: formData.get("size"),
         image: allImages[0]?.src || "",
         images: allImages,
@@ -206,6 +211,20 @@ function AddPropertyPage() {
     const selectedImages = Array.from(event.target.files);
 
     setImages((currentImages) => [...currentImages, ...selectedImages]);
+  }
+
+  function addCustomFeature() {
+    setCustomFeatures((current) => [...current, ""]);
+  }
+
+  function updateCustomFeature(index, value) {
+    setCustomFeatures((current) =>
+      current.map((feature, i) => (i === index ? value : feature)),
+    );
+  }
+
+  function removeCustomFeature(index) {
+    setCustomFeatures((current) => current.filter((_, i) => i !== index));
   }
 
   return (
@@ -359,7 +378,59 @@ function AddPropertyPage() {
                 />
               </div>
             </div>
+
+            {/* Additional Custom Features */}
+            <div className="mt-8 border-t border-gray-100 pt-6">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <h3 className="font-semibold text-[#252925]">
+                    Other Features
+                  </h3>
+
+                  <p className="mt-1 text-sm text-gray-500">
+                    Add any additional features of your property.
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={addCustomFeature}
+                  className="rounded-lg bg-[#174C3C]/10 px-4 py-2 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C]/20"
+                >
+                  + Add Feature
+                </button>
+              </div>
+
+              {customFeatures.length > 0 && (
+                <div className="mt-5 space-y-3">
+                  {customFeatures.map((feature, index) => (
+                    <div key={index} className="flex items-center gap-3">
+                      <input
+                        type="text"
+                        value={feature}
+                        onChange={(event) =>
+                          updateCustomFeature(index, event.target.value)
+                        }
+                        placeholder="e.g. Swimming pool, Solar power..."
+                        className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#174C3C]"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() => removeCustomFeature(index)}
+                        className="shrink-0 rounded-lg p-3 text-red-500 transition hover:bg-red-50"
+                        aria-label={`Remove feature ${index + 1}`}
+                      >
+                        <X size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </section>
+
+          {/* Listing Details */}
 
           {/* Listing Details */}
           <section className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
