@@ -18,6 +18,7 @@ function readImageAsDataURL(file) {
 function AddPropertyPage() {
   const [images, setImages] = useState([]);
   const [customFeatures, setCustomFeatures] = useState([]);
+  const [editingFeatureIndex, setEditingFeatureIndex] = useState(null);
   const [propertyType, setPropertyType] = useState("Apartment");
   const [listingType, setListingType] = useState("For Rent");
   const { agentProperties, addProperty, updateProperty } = useProperties();
@@ -227,6 +228,23 @@ function AddPropertyPage() {
     setCustomFeatures((current) => current.filter((_, i) => i !== index));
   }
 
+  function confirmCustomFeature(index) {
+    const feature = customFeatures[index]?.trim();
+
+    if (!feature) return;
+
+    setCustomFeatures((current) =>
+      current.map((item, i) => (i === index ? feature : item)),
+    );
+
+    setEditingFeatureIndex(null);
+
+    if (index === customFeatures.length - 1) {
+      setCustomFeatures((current) => [...current, ""]);
+      setEditingFeatureIndex(customFeatures.length);
+    }
+  }
+
   return (
     <div className="min-h-screen bg-[#F7F3EA] px-5 py-10 sm:px-8">
       <div className="mx-auto max-w-4xl">
@@ -381,51 +399,72 @@ function AddPropertyPage() {
 
             {/* Additional Custom Features */}
             <div className="mt-8 border-t border-gray-100 pt-6">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <h3 className="font-semibold text-[#252925]">
-                    Other Features
-                  </h3>
+              <div>
+                <h3 className="font-semibold text-[#252925]">Other Features</h3>
 
-                  <p className="mt-1 text-sm text-gray-500">
-                    Add any additional features of your property.
-                  </p>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={addCustomFeature}
-                  className="rounded-lg bg-[#174C3C]/10 px-4 py-2 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C]/20"
-                >
-                  + Add Feature
-                </button>
+                <p className="mt-1 text-sm text-gray-500">
+                  Add any additional features of your property.
+                </p>
               </div>
 
-              {customFeatures.length > 0 && (
-                <div className="mt-5 space-y-3">
-                  {customFeatures.map((feature, index) => (
+              <div className="mt-5 space-y-3">
+                {customFeatures.map((feature, index) => {
+                  const isEditing = editingFeatureIndex === index;
+
+                  return (
                     <div key={index} className="flex items-center gap-3">
                       <input
                         type="text"
                         value={feature}
+                        readOnly={!isEditing}
                         onChange={(event) =>
                           updateCustomFeature(index, event.target.value)
                         }
+                        onFocus={() => setEditingFeatureIndex(index)}
                         placeholder="e.g. Swimming pool, Solar power..."
-                        className="w-full rounded-xl border border-gray-200 px-4 py-3 outline-none transition focus:border-[#174C3C]"
+                        className={`w-full rounded-xl border px-4 py-3 outline-none transition ${
+                          isEditing
+                            ? "border-[#174C3C] bg-white"
+                            : "border-gray-200 bg-gray-50"
+                        }`}
                       />
 
                       <button
                         type="button"
-                        onClick={() => removeCustomFeature(index)}
-                        className="shrink-0 rounded-lg p-3 text-red-500 transition hover:bg-red-50"
-                        aria-label={`Remove feature ${index + 1}`}
+                        onClick={() =>
+                          isEditing
+                            ? confirmCustomFeature(index)
+                            : setEditingFeatureIndex(index)
+                        }
+                        disabled={isEditing && !feature.trim()}
+                        className="shrink-0 rounded-lg bg-[#174C3C]/10 px-4 py-3 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C]/20 disabled:cursor-not-allowed disabled:opacity-50"
                       >
-                        <X size={18} />
+                        {isEditing ? "Add" : "Edit"}
                       </button>
+
+                      {isEditing && (
+                        <button
+                          type="button"
+                          onClick={() => removeCustomFeature(index)}
+                          className="shrink-0 rounded-lg p-3 text-red-500 hover:bg-red-50"
+                          aria-label={`Remove feature ${index + 1}`}
+                        >
+                          <X size={18} />
+                        </button>
+                      )}
                     </div>
-                  ))}
-                </div>
+                  );
+                })}
+              </div>
+
+              {customFeatures.length === 0 && (
+                <button
+                  type="button"
+                  onClick={addCustomFeature}
+                  className="mt-4 rounded-lg bg-[#174C3C]/10 px-4 py-2 text-sm font-semibold text-[#174C3C] hover:bg-[#174C3C]/20"
+                >
+                  + Add Feature
+                </button>
               )}
             </div>
           </section>

@@ -123,6 +123,35 @@ function PropertyDetailsPage() {
               </p>
             </div>
 
+            {/* Other Property Features */}
+            {property.customFeatures?.filter((feature) => feature.trim())
+              .length > 0 && (
+              <div className="mt-8">
+                <h2 className="text-xl font-bold text-[#252925]">
+                  Other Features
+                </h2>
+
+                <div className="mt-4 grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+                  {property.customFeatures
+                    .filter((feature) => feature.trim())
+                    .map((feature, index) => (
+                      <div
+                        key={index}
+                        className="flex items-center gap-3 rounded-xl bg-[#E5EBE4] p-4"
+                      >
+                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#174C3C] text-sm text-white">
+                          ✓
+                        </span>
+
+                        <span className="font-medium text-[#252925]">
+                          {feature}
+                        </span>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )}
+
             <button
               onClick={() => navigate(`/properties/${property.id}/inspection`)}
               className="mt-8 w-full rounded-full bg-[#174C3C] px-6 py-4 font-semibold text-white transition hover:bg-[#10392D] md:w-auto"
