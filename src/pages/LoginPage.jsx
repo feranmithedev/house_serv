@@ -1,11 +1,15 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { apiRequest } from "../services/api";
+import { useAuth } from "../context/useAuth";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [message, setMessage] = useState("");
+  const navigate = useNavigate();
+  const { setUser } = useAuth();
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setMessage("");
 
@@ -29,9 +33,43 @@ function LoginPage() {
       return;
     }
 
-    setMessage(
-      "Your details are valid. Login authentication is not connected yet.",
-    );
+    try {
+      const response = await apiRequest("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+
+      const user = response.data.user;
+      setUser(user);
+
+      const accountTypes = {
+        house_finder: "finder",
+        agent: "agent",
+        service_provider: "provider",
+      };
+
+      const userProfile = {
+        ...user,
+        accountType: accountTypes[user.role],
+      };
+
+      localStorage.setItem("houseServUser", JSON.stringify(userProfile));
+
+      if (user.role === "house_finder") {
+        navigate("/dashboard/house-finder");
+      } else if (user.role === "agent") {
+        navigate("/dashboard/agent");
+      } else if (user.role === "service_provider") {
+        navigate("/dashboard/provider");
+      } else {
+        setMessage("Your account role is not recognised.");
+      }
+    } catch (error) {
+      setMessage(error.message);
+    }
   }
 
   return (

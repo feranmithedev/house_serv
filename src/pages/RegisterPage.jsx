@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BriefcaseBusiness, House, Wrench } from "lucide-react";
+import { apiRequest } from "../services/api";
 
 function RegisterPage() {
   const navigate = useNavigate();
@@ -9,7 +10,7 @@ function RegisterPage() {
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     setMessage("");
 
@@ -46,46 +47,46 @@ function RegisterPage() {
       return;
     }
 
-    const userProfile = {
-      fullName,
-      email,
-      phone,
-      accountType,
-      profileComplete: accountType === "finder",
-      createdAt: new Date().toISOString(),
-    };
+    try {
+      await apiRequest("/api/register", {
+        method: "POST",
+        body: JSON.stringify({
+          fullName,
+          email,
+          phone,
+          password,
+          accountType,
+        }),
+      });
 
-    // Get previously registered users
-    const registeredUsers = JSON.parse(
-      localStorage.getItem("houseServUsers") || "[]",
-    );
+      const loginResponse = await apiRequest("/api/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
 
-    // Check whether this email already exists
-    const existingUserIndex = registeredUsers.findIndex(
-      (user) => user.email.toLowerCase() === email.toLowerCase(),
-    );
+      const user = loginResponse.data.user;
 
-    if (existingUserIndex !== -1) {
-      setMessage("An account with this email already exists.");
-      return;
-    }
+      const userProfile = {
+        ...user,
+        accountType,
+        profileComplete: accountType === "finder",
+        createdAt: new Date().toISOString(),
+      };
 
-    // Add the new user
-    registeredUsers.push(userProfile);
+      localStorage.setItem("houseServUser", JSON.stringify(userProfile));
 
-    localStorage.setItem("houseServUsers", JSON.stringify(registeredUsers));
-
-    // Save the currently logged-in user
-    localStorage.setItem("houseServUser", JSON.stringify(userProfile));
-
-    localStorage.setItem("houseServUser", JSON.stringify(userProfile));
-
-    if (accountType === "finder") {
-      navigate("/dashboard/house-finder");
-    } else if (accountType === "agent") {
-      navigate("/dashboard/agent");
-    } else {
-      navigate("/dashboard/provider");
+      if (accountType === "finder") {
+        navigate("/dashboard/house-finder");
+      } else if (accountType === "agent") {
+        navigate("/dashboard/agent");
+      } else {
+        navigate("/dashboard/provider");
+      }
+    } catch (error) {
+      setMessage(error.message);
     }
   }
 

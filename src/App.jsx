@@ -4,6 +4,7 @@ import { lazy, Suspense } from "react";
 import MainLayout from "./components/layout/MainLayout";
 import ScrollToTop from "./components/ScrollToTop";
 
+import AuthProvider from "./context/AuthProvider";
 import { SavedPropertiesProvider } from "./context/SavedPropertiesContext";
 import { ServiceRequestsProvider } from "./context/ServiceRequestsProvider";
 import { InspectionsProvider } from "./context/InspectionsProvider";
@@ -11,6 +12,7 @@ import { PropertiesProvider } from "./context/PropertiesProvider";
 import { AgentApplicationsProvider } from "./context/AgentApplicationsProvider";
 import { ProviderApplicationsManager } from "./context/ProviderApplicationsManager";
 import { ReviewsProvider } from "./context/ReviewsProvider";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 const RegisterPage = lazy(() => import("./pages/RegisterPage"));
 const LoginPage = lazy(() => import("./pages/LoginPage"));
@@ -65,135 +67,233 @@ const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 function App() {
   return (
-    <ProviderApplicationsManager>
-      <AgentApplicationsProvider>
-        <PropertiesProvider>
-          <InspectionsProvider>
-            <ServiceRequestsProvider>
-              <ReviewsProvider>
-                <SavedPropertiesProvider>
-                  <BrowserRouter>
-                    <ScrollToTop />
+    <AuthProvider>
+      <ProviderApplicationsManager>
+        <AgentApplicationsProvider>
+          <PropertiesProvider>
+            <InspectionsProvider>
+              <ServiceRequestsProvider>
+                <ReviewsProvider>
+                  <SavedPropertiesProvider>
+                    <BrowserRouter>
+                      <ScrollToTop />
 
-                    <Suspense
-                      fallback={
-                        <div
-                          className="flex min-h-[50vh] items-center justify-center bg-[#F7F3EA] text-[#174C3C]"
-                          role="status"
-                        >
-                          Loading House&Serv...
-                        </div>
-                      }
-                    >
-                      <Routes>
-                        <Route element={<MainLayout />}>
-                          <Route path="/register" element={<RegisterPage />} />
-                          <Route path="/login" element={<LoginPage />} />
-                          <Route
-                            path="/forgot-password"
-                            element={<ForgotPasswordPage />}
-                          />
-                          <Route path="/" element={<HomePage />} />
-                          <Route
-                            path="/dashboard/agent/properties/new"
-                            element={<AddPropertyPage />}
-                          />
-                          <Route
-                            path="/dashboard/agent/properties/:id/edit"
-                            element={<AddPropertyPage />}
-                          />
-                          <Route
-                            path="/properties"
-                            element={<PropertiesPage />}
-                          />
-                          <Route
-                            path="/properties/:id"
-                            element={<PropertyDetailsPage />}
-                          />
-                          <Route
-                            path="/properties/:id/inspection"
-                            element={<InspectionPage />}
-                          />
-                          <Route path="/services" element={<ServicesPage />} />
-                          <Route
-                            path="/services/:id"
-                            element={<ServiceDetailsPage />}
-                          />
-                          <Route
-                            path="/services/:id/providers"
-                            element={<ServiceProvidersPage />}
-                          />
-                          <Route
-                            path="/providers/:id"
-                            element={<ProviderDetailsPage />}
-                          />
-                          <Route
-                            path="/providers/:id/request"
-                            element={<ServiceRequestPage />}
-                          />
-                          <Route path="/saved" element={<SavedPage />} />
-                          <Route path="/activity" element={<ActivityPage />} />
-                          <Route path="/profile" element={<ProfilePage />} />
-                          <Route
-                            path="/dashboard/house-finder"
-                            element={<HouseFinderDashboard />}
-                          />
-                          <Route
-                            path="/dashboard/agent"
-                            element={<AgentDashboard />}
-                          />
-                          <Route
-                            path="/dashboard/agent/inspections"
-                            element={<AgentInspectionsPage />}
-                          />
-                          <Route
-                            path="/dashboard/admin"
-                            element={<AdminDashboardPage />}
-                          />
-                          <Route
-                            path="/dashboard/admin/properties"
-                            element={<AdminPropertyReviewsPage />}
-                          />
-                          <Route
-                            path="/dashboard/admin/agents"
-                            element={<AdminAgentReviewsPage />}
-                          />
-                          <Route
-                            path="/admin/provider-reviews"
-                            element={<AdminProviderReviewsPage />}
-                          />
-                          <Route
-                            path="/dashboard/provider"
-                            element={<ServiceProviderDashboard />}
-                          />
-                          <Route
-                            path="/dashboard/provider/requests"
-                            element={<ProviderServiceRequestsPage />}
-                          />
-                          <Route
-                            path="/services/review/:id"
-                            element={<ReviewPage />}
-                          />
-                          <Route
-                            path="/dashboard/provider/profile"
-                            element={<ProviderProfileCompletionPage />}
-                          />
-                          <Route
-                            path="/dashboard/agent/properties"
-                            element={<MyListingsPage />}
-                          />
-                          <Route path="*" element={<NotFoundPage />} />
-                        </Route>
-                      </Routes>
-                    </Suspense>
-                  </BrowserRouter>
-                </SavedPropertiesProvider>
-              </ReviewsProvider>
-            </ServiceRequestsProvider>
-          </InspectionsProvider>
-        </PropertiesProvider>
-      </AgentApplicationsProvider>
-    </ProviderApplicationsManager>
+                      <Suspense
+                        fallback={
+                          <div
+                            className="flex min-h-[50vh] items-center justify-center bg-[#F7F3EA] text-[#174C3C]"
+                            role="status"
+                          >
+                            Loading House&Serv...
+                          </div>
+                        }
+                      >
+                        <Routes>
+                          <Route element={<MainLayout />}>
+                            <Route
+                              path="/register"
+                              element={<RegisterPage />}
+                            />
+                            <Route path="/login" element={<LoginPage />} />
+                            <Route
+                              path="/forgot-password"
+                              element={<ForgotPasswordPage />}
+                            />
+                            <Route path="/" element={<HomePage />} />
+                            <Route
+                              path="/properties"
+                              element={<PropertiesPage />}
+                            />
+                            <Route
+                              path="/properties/:id"
+                              element={<PropertyDetailsPage />}
+                            />
+                            <Route
+                              path="/properties/:id/inspection"
+                              element={<InspectionPage />}
+                            />
+                            <Route
+                              path="/services"
+                              element={<ServicesPage />}
+                            />
+                            <Route
+                              path="/services/:id"
+                              element={<ServiceDetailsPage />}
+                            />
+                            <Route
+                              path="/services/:id/providers"
+                              element={<ServiceProvidersPage />}
+                            />
+                            <Route
+                              path="/providers/:id"
+                              element={<ProviderDetailsPage />}
+                            />
+                            <Route
+                              path="/providers/:id/request"
+                              element={<ServiceRequestPage />}
+                            />
+                            <Route
+                              path="/saved"
+                              element={
+                                <ProtectedRoute allowedRoles={["house_finder"]}>
+                                  <SavedPage />
+                                </ProtectedRoute>
+                              }
+                            />
+                            <Route
+                              path="/activity"
+                              element={<ActivityPage />}
+                            />
+                            <Route path="/profile" element={<ProfilePage />} />
+                            <Route
+                              path="/admin/provider-reviews"
+                              element={<AdminProviderReviewsPage />}
+                            />
+                            <Route
+                              path="/services/review/:id"
+                              element={<ReviewPage />}
+                            />
+
+                            {/* Agent routes */}
+                            <Route
+                              path="/dashboard/agent/properties/new"
+                              element={
+                                <ProtectedRoute allowedRoles={["agent"]}>
+                                  <AddPropertyPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/agent/properties/:id/edit"
+                              element={
+                                <ProtectedRoute allowedRoles={["agent"]}>
+                                  <AddPropertyPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/agent"
+                              element={
+                                <ProtectedRoute allowedRoles={["agent"]}>
+                                  <AgentDashboard />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/agent/inspections"
+                              element={
+                                <ProtectedRoute allowedRoles={["agent"]}>
+                                  <AgentInspectionsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/agent/properties"
+                              element={
+                                <ProtectedRoute allowedRoles={["agent"]}>
+                                  <MyListingsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            {/* House Finder routes */}
+                            <Route
+                              path="/dashboard/house-finder"
+                              element={
+                                <ProtectedRoute allowedRoles={["house_finder"]}>
+                                  <HouseFinderDashboard />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            {/* Service Provider routes */}
+                            <Route
+                              path="/dashboard/provider"
+                              element={
+                                <ProtectedRoute
+                                  allowedRoles={["service_provider"]}
+                                >
+                                  <ServiceProviderDashboard />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/provider/requests"
+                              element={
+                                <ProtectedRoute
+                                  allowedRoles={["service_provider"]}
+                                >
+                                  <ProviderServiceRequestsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/provider/profile"
+                              element={
+                                <ProtectedRoute
+                                  allowedRoles={["service_provider"]}
+                                >
+                                  <ProviderProfileCompletionPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            {/* Admin routes */}
+                            <Route
+                              path="/dashboard/admin"
+                              element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                  <AdminDashboardPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/admin/properties"
+                              element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                  <AdminPropertyReviewsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/dashboard/admin/agents"
+                              element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                  <AdminAgentReviewsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route
+                              path="/admin/provider-reviews"
+                              element={
+                                <ProtectedRoute allowedRoles={["admin"]}>
+                                  <AdminProviderReviewsPage />
+                                </ProtectedRoute>
+                              }
+                            />
+
+                            <Route path="*" element={<NotFoundPage />} />
+                          </Route>
+                        </Routes>
+                      </Suspense>
+                    </BrowserRouter>
+                  </SavedPropertiesProvider>
+                </ReviewsProvider>
+              </ServiceRequestsProvider>
+            </InspectionsProvider>
+          </PropertiesProvider>
+        </AgentApplicationsProvider>
+      </ProviderApplicationsManager>
+    </AuthProvider>
   );
 }
 

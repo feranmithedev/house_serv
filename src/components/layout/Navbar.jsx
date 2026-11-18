@@ -1,8 +1,31 @@
 import { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { House, Bookmark, UserCircle, Menu, X } from "lucide-react";
 
+import { useAuth } from "../../context/useAuth";
+import { apiRequest } from "../../services/api";
+
 function Navbar() {
+  const { user, setUser, loading } = useAuth();
+  const navigate = useNavigate();
+  const [logoutError, setLogoutError] = useState("");
+
+  async function handleLogout() {
+    setLogoutError("");
+
+    try {
+      await apiRequest("/api/logout", {
+        method: "POST",
+      });
+
+      setUser(null);
+      setMenuOpen(false);
+      navigate("/");
+    } catch (error) {
+      setLogoutError(error.message || "Unable to log out. Please try again.");
+    }
+  }
+
   const [menuOpen, setMenuOpen] = useState(false);
   useEffect(() => {
     function handleResize() {
@@ -32,7 +55,7 @@ function Navbar() {
     }`;
 
   return (
-    <header className="w-full border-b border-gray-200 bg-white">
+    <header className="relative w-full border-b border-gray-200 bg-white">
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
         {/* Logo */}
         <NavLink to="/" className="flex items-center gap-2">
@@ -57,36 +80,52 @@ function Navbar() {
         </div>
 
         {/* Desktop actions */}
-        {/* Desktop actions */}
         <div className="hidden items-center gap-5 md:flex">
-          <NavLink
-            to="/login"
-            className="text-sm font-semibold text-gray-600 transition hover:text-[#174C3C]"
-          >
-            Login
-          </NavLink>
+          {!loading &&
+            (user ? (
+              <>
+                {user.role === "agent" && (
+                  <NavLink
+                    to="/dashboard/agent/properties/new"
+                    className="rounded-lg border border-[#174C3C] px-5 py-3 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C] hover:text-white"
+                  >
+                    List a Property
+                  </NavLink>
+                )}
 
-          <NavLink
-            to="/register"
-            className="rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C]"
-          >
-            Create Account
-          </NavLink>
+                <NavLink to="/saved" aria-label="Saved properties">
+                  <Bookmark size={21} className="text-gray-600" />
+                </NavLink>
 
-          <NavLink to="/saved" aria-label="Saved properties">
-            <Bookmark size={21} className="text-gray-600" />
-          </NavLink>
+                <NavLink to="/profile" aria-label="Your profile">
+                  <UserCircle size={23} className="text-gray-600" />
+                </NavLink>
 
-          <NavLink to="/profile" aria-label="Your profile">
-            <UserCircle size={23} className="text-gray-600" />
-          </NavLink>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="text-sm font-semibold text-gray-600 transition hover:text-[#174C3C]"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink
+                  to="/login"
+                  className="text-sm font-semibold text-gray-600 transition hover:text-[#174C3C]"
+                >
+                  Login
+                </NavLink>
 
-          <NavLink
-            to="/dashboard/agent/properties/new"
-            className="rounded-lg border border-[#174C3C] px-5 py-3 text-sm font-semibold text-[#174C3C] transition hover:bg-[#174C3C] hover:text-white"
-          >
-            List a Property
-          </NavLink>
+                <NavLink
+                  to="/register"
+                  className="rounded-lg bg-[#174C3C] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#10382C]"
+                >
+                  Create Account
+                </NavLink>
+              </>
+            ))}
         </div>
 
         {/* Mobile menu button */}
@@ -102,13 +141,19 @@ function Navbar() {
         </button>
       </nav>
 
+      {logoutError && (
+        <p className="px-5 py-2 text-sm text-red-600" role="alert">
+          {logoutError}
+        </p>
+      )}
+
       {/* Mobile dropdown */}
       {menuOpen && (
         <div
           id="mobile-navigation"
-          className="border-t border-gray-100 bg-white px-5 py-6 shadow-lg md:hidden"
+          className="absolute left-0 right-0 z-50 border-b border-gray-200 bg-white px-5 py-5 shadow-lg md:hidden"
         >
-          <div className="flex flex-col gap-6">
+          <div className="flex flex-col gap-5">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}
@@ -120,53 +165,130 @@ function Navbar() {
               </NavLink>
             ))}
 
-            <NavLink
-              to="/activity"
-              className={linkStyle}
-              onClick={() => setMenuOpen(false)}
-            >
-              Activity
-            </NavLink>
+            {user && (
+              <NavLink
+                to="/activity"
+                onClick={() => setMenuOpen(false)}
+                className={linkStyle}
+              >
+                Activity
+              </NavLink>
+            )}
 
-            <NavLink
-              to="/saved"
-              onClick={() => setMenuOpen(false)}
-              className={linkStyle}
-            >
-              Saved Properties
-            </NavLink>
+            {!loading &&
+              (user ? (
+                <>
+                  {user.role === "house_finder" && (
+                    <>
+                      <NavLink
+                        to="/dashboard/house-finder"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        Dashboard
+                      </NavLink>
 
-            <NavLink
-              to="/profile"
-              onClick={() => setMenuOpen(false)}
-              className={linkStyle}
-            >
-              My Profile
-            </NavLink>
+                      <NavLink
+                        to="/saved"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        Saved Properties
+                      </NavLink>
+                    </>
+                  )}
 
-            <NavLink
-              to="/login"
-              onClick={() => setMenuOpen(false)}
-              className={linkStyle}
-            >
-              Login
-            </NavLink>
+                  {user.role === "agent" && (
+                    <>
+                      <NavLink
+                        to="/dashboard/agent"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        Agent Dashboard
+                      </NavLink>
 
-            <NavLink
-              to="/register"
-              onClick={() => setMenuOpen(false)}
-              className="w-full rounded-lg bg-[#174C3C] px-5 py-3 text-center text-sm font-semibold text-white"
-            >
-              Create Account
-            </NavLink>
+                      <NavLink
+                        to="/dashboard/agent/properties"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        My Listings
+                      </NavLink>
 
-            <NavLink
-              to="/dashboard/agent/properties/new"
-              onClick={() => setMenuOpen(false)}
-              className="w-full rounded-lg bg-[#174C3C] px-5 py-3 text-center text-sm font-semibold text-white"
-            >
-              List a Property
-            </NavLink>
+                      <NavLink
+                        to="/dashboard/agent/inspections"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        Inspections
+                      </NavLink>
+
+                      <NavLink
+                        to="/dashboard/agent/properties/new"
+                        onClick={() => setMenuOpen(false)}
+                        className={linkStyle}
+                      >
+                        List a Property
+                      </NavLink>
+                    </>
+                  )}
+
+                  {user.role === "service_provider" && (
+                    <NavLink
+                      to="/dashboard/provider"
+                      onClick={() => setMenuOpen(false)}
+                      className={linkStyle}
+                    >
+                      Provider Dashboard
+                    </NavLink>
+                  )}
+
+                  {user.role === "admin" && (
+                    <NavLink
+                      to="/dashboard/admin"
+                      onClick={() => setMenuOpen(false)}
+                      className={linkStyle}
+                    >
+                      Admin Dashboard
+                    </NavLink>
+                  )}
+
+                  <NavLink
+                    to="/profile"
+                    onClick={() => setMenuOpen(false)}
+                    className={linkStyle}
+                  >
+                    My Profile
+                  </NavLink>
+
+                  <button
+                    type="button"
+                    onClick={handleLogout}
+                    className="text-left text-sm font-semibold text-red-600"
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <>
+                  <NavLink
+                    to="/login"
+                    onClick={() => setMenuOpen(false)}
+                    className={linkStyle}
+                  >
+                    Login
+                  </NavLink>
+
+                  <NavLink
+                    to="/register"
+                    onClick={() => setMenuOpen(false)}
+                    className="text-sm font-semibold text-[#174C3C]"
+                  >
+                    Create Account
+                  </NavLink>
+                </>
+              ))}
           </div>
         </div>
       )}
